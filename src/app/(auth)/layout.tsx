@@ -7,7 +7,7 @@ interface AuthLayoutProps {
 
 export default function AuthLayout({ children }: AuthLayoutProps) {
   return (
-    <div className="h-dvh w-full bg-[url('/bg.jpg')] bg-cover bg-top">
+    <main className="h-dvh w-full bg-[url('/bg.jpg')] bg-cover bg-top">
       <div className="relative flex h-dvh flex-col items-center justify-center px-4">
         <div className="absolute left-1/2 top-16 h-[100px] w-[202px] -translate-x-1/2">
           <Image
@@ -21,6 +21,6 @@ export default function AuthLayout({ children }: AuthLayoutProps) {
         </div>
         {children}
       </div>
-    </div>
+    </main>
   );
 }
