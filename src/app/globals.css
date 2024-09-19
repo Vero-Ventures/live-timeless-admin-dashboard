@@ -59,7 +59,7 @@ body {
     --foreground: 0 0% 98%;
     --card: 209 75% 13%;
     --card-foreground: 0 0% 98%;
-    --popover: 240 10% 3.9%;
+    --popover: 209 41% 21%;
     --popover-foreground: 0 0% 98%;
     --primary: 214 97% 55%;
     --primary-foreground: 0 0% 98%;
@@ -67,7 +67,7 @@ body {
     --secondary-foreground: 0 0% 98%;
     --muted: 0 0% 100% / 10%;
     --muted-foreground: 240 5% 64.9%;
-    --accent: 240 3.7% 15.9%;
+    --accent: 209 75% 13%;
     --accent-foreground: 0 0% 98%;
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 0% 98%;
