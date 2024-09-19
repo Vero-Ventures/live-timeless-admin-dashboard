@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "next lint",
     "format": "prettier --write . --list-different",
-    "format:check": "prettier --check ."
+    "format:check": "prettier --check .",
+    "coverage": "bun test --coverage"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.0",
