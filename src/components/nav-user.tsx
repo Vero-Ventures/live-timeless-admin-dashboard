@@ -1,10 +1,4 @@
-import {
-  BadgeCheck,
-  Bell,
-  ChevronsUpDown,
-  CreditCard,
-  LogOut,
-} from "lucide-react";
+import { BadgeCheck, Bell, CreditCard, LogOut } from "lucide-react";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
@@ -28,9 +22,9 @@ export function NavUser({
 }) {
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger className="w-full rounded-md outline-none ring-ring hover:bg-accent focus-visible:ring-2 data-[state=open]:bg-accent">
-        <div className="flex items-center gap-2 px-2 py-1.5 text-left text-sm transition-all">
-          <Avatar className="h-7 w-7 rounded-md border">
+      <DropdownMenuTrigger className="w-full rounded-full bg-muted px-2.5 py-1.5 outline-none ring-ring hover:bg-accent focus-visible:ring-2 data-[state=open]:bg-accent">
+        <div className="flex items-center gap-4 px-2 py-1.5 text-left text-sm transition-all">
+          <Avatar className="size-10 rounded-full">
             <AvatarImage
               src={user.avatar}
               alt={user.name}
@@ -39,12 +33,11 @@ export function NavUser({
             <AvatarFallback className="rounded-md">CN</AvatarFallback>
           </Avatar>
           <div className="grid flex-1 leading-none">
-            <div className="font-medium">{user.name}</div>
-            <div className="overflow-hidden text-xs text-muted-foreground">
+            <div className="text-base font-semibold">{user.name}</div>
+            <div className="overflow-hidden text-xs">
               <div className="line-clamp-1">{user.email}</div>
             </div>
           </div>
-          <ChevronsUpDown className="ml-auto mr-0.5 h-4 w-4 text-muted-foreground/50" />
         </div>
       </DropdownMenuTrigger>
       <DropdownMenuContent
