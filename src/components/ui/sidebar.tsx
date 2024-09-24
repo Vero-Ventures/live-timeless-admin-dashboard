@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { PanelLeft } from "lucide-react";
+import { Menu } from "lucide-react";
 
 import { useIsMobile } from "@/hooks/use-mobile";
 import { cn } from "@/lib/utils";
@@ -33,15 +33,32 @@ const SidebarLayout = React.forwardRef<
   }
 >(({ defaultOpen, className, ...props }, ref) => {
   const [open, setOpen] = React.useState(defaultOpen ?? true);
+  const [closedOnMobile, setClosedOnMobile] = React.useState(false);
+  const isMobile = useIsMobile();
 
-  const onOpenChange = React.useCallback((open: boolean) => {
-    setOpen(open);
-    document.cookie = `${SIDEBAR_STATE_COOKIE}=${open}; path=/; max-age=${
-      60 * 60 * 24 * 7
-    }`;
-  }, []);
+  const onOpenChange = React.useCallback(
+    (open: boolean) => {
+      setOpen(open);
+      if (isMobile) {
+        setClosedOnMobile(!open);
+      }
+      document.cookie = `${SIDEBAR_STATE_COOKIE}=${open}; path=/; max-age=${
+        60 * 60 * 24 * 7
+      }`;
+    },
+    [isMobile]
+  );
 
-  const state = open ? "open" : "closed";
+  React.useEffect(() => {
+    if (isMobile) {
+      setOpen(false);
+    } else {
+      setOpen(true);
+      setClosedOnMobile(false);
+    }
+  }, [isMobile]);
+
+  const state = isMobile ? (open ? "open" : "closed") : "open";
 
   return (
     <SidebarContext.Provider value={{ state, open, onOpenChange }}>
@@ -50,11 +67,11 @@ const SidebarLayout = React.forwardRef<
         data-sidebar={state}
         style={
           {
-            "--sidebar-width": "16rem",
+            "--sidebar-width": "20rem",
           } as React.CSSProperties
         }
         className={cn(
-          "flex min-h-screen bg-accent/50 pl-0 transition-all duration-300 ease-in-out data-[sidebar=closed]:pl-0 sm:pl-[--sidebar-width]",
+          "flex min-h-screen flex-col bg-accent/50 pl-0 transition-all duration-300 ease-in-out data-[sidebar=closed]:pl-0 sm:pl-[--sidebar-width] md:flex-row",
           className
         )}
         {...props}
@@ -79,7 +96,7 @@ const SidebarTrigger = React.forwardRef<
       onClick={() => onOpenChange(!open)}
       {...props}
     >
-      <PanelLeft className="h-4 w-4" />
+      <Menu className="size-4" />
       <span className="sr-only">Toggle Sidebar</span>
     </Button>
   );
@@ -94,7 +111,10 @@ const Sidebar = React.forwardRef<HTMLDivElement, React.ComponentProps<"div">>(
     const sidebar = (
       <div
         ref={ref}
-        className={cn("flex h-full flex-col border-r bg-background", className)}
+        className={cn(
+          "flex h-dvh flex-col bg-[url('/sidebar.jpg')] bg-cover",
+          className
+        )}
       >
         {children}
       </div>
@@ -129,7 +149,7 @@ const SidebarHeader = React.forwardRef<
   return (
     <div
       ref={ref}
-      className={cn("flex items-center border-b px-2.5 py-2", className)}
+      className={cn("flex items-center px-6 py-2", className)}
       {...props}
     />
   );
@@ -143,7 +163,7 @@ const SidebarFooter = React.forwardRef<
   return (
     <div
       ref={ref}
-      className={cn("flex items-center border-t px-2.5 py-2", className)}
+      className={cn("mb-4 flex items-center px-6", className)}
       {...props}
     />
   );
@@ -169,7 +189,7 @@ const SidebarItem = React.forwardRef<
   React.ComponentProps<"div">
 >(({ className, ...props }, ref) => {
   return (
-    <div ref={ref} className={cn("grid gap-2 px-2.5", className)} {...props} />
+    <div ref={ref} className={cn("grid gap-2 px-6", className)} {...props} />
   );
 });
 SidebarItem.displayName = "SidebarItem";
