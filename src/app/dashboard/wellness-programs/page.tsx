@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { DataTable } from "./data-table";
 import { columns, type TableData } from "./columns";
+import Link from "next/link";
 
 const data: TableData[] = [
   {
@@ -83,7 +84,9 @@ export default async function Page() {
       <Card className="border-none">
         <CardHeader className="mb-6 flex flex-row items-center justify-between">
           <CardTitle>Program Management</CardTitle>
-          <Button>New Program</Button>
+          <Button asChild>
+            <Link href="#">New Program</Link>
+          </Button>
         </CardHeader>
         <CardContent className="p-0">
           <DataTable columns={columns} data={data} />
