@@ -30,7 +30,7 @@ export function NavUser({
               alt={user.name}
               className="animate-in fade-in-50 zoom-in-90"
             />
-            <AvatarFallback className="rounded-md">CN</AvatarFallback>
+            <AvatarFallback className="rounded-md">YT</AvatarFallback>
           </Avatar>
           <div className="grid flex-1 leading-none">
             <div className="text-base font-semibold">{user.name}</div>

@@ -28,8 +28,8 @@ const navMain = [
 ];
 
 const user = {
-  name: "shadcn",
-  email: "m@example.com",
+  name: "Yaniv Talmor",
+  email: "yaniv@example.com",
   avatar: "/avatars/shadcn.jpg",
 };
 
