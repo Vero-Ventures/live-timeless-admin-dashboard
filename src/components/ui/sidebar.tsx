@@ -10,11 +10,11 @@ import { Sheet, SheetContent } from "@/components/ui/sheet";
 
 export const SIDEBAR_STATE_COOKIE = "sidebar:state";
 
-type SidebarContext = {
+interface SidebarContext {
   state: "open" | "closed";
   open: boolean;
   onOpenChange: (open: boolean) => void;
-};
+}
 
 const SidebarContext = React.createContext<SidebarContext>({
   state: "open",
@@ -33,7 +33,7 @@ const SidebarLayout = React.forwardRef<
   }
 >(({ defaultOpen, className, ...props }, ref) => {
   const [open, setOpen] = React.useState(defaultOpen ?? true);
-  const [closedOnMobile, setClosedOnMobile] = React.useState(false);
+  const [_, setClosedOnMobile] = React.useState(false);
   const isMobile = useIsMobile();
 
   const onOpenChange = React.useCallback(
@@ -71,7 +71,7 @@ const SidebarLayout = React.forwardRef<
           } as React.CSSProperties
         }
         className={cn(
-          "flex min-h-screen flex-col bg-accent/50 pl-0 transition-all duration-300 ease-in-out data-[sidebar=closed]:pl-0 sm:pl-[--sidebar-width] md:flex-row",
+          "flex min-h-dvh flex-col pl-0 transition-all duration-300 ease-in-out data-[sidebar=closed]:pl-0 sm:pl-[--sidebar-width] md:flex-row",
           className
         )}
         {...props}
