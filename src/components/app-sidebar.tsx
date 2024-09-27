@@ -18,14 +18,18 @@ const navMain = [
     url: "/dashboard",
   },
   {
+    title: "Wellness Programs",
+    url: "/dashboard/wellness-programs",
+  },
+  {
     title: "Report and Analytics",
-    url: "/report-and-analytics",
+    url: "/dashboard/report-analytics",
   },
 ];
 
 const user = {
-  name: "shadcn",
-  email: "m@example.com",
+  name: "Yaniv Talmor",
+  email: "yaniv@example.com",
   avatar: "/avatars/shadcn.jpg",
 };
 

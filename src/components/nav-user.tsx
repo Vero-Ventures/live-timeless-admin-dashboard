@@ -22,7 +22,7 @@ export function NavUser({
 }) {
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger className="w-full rounded-full bg-muted px-2.5 py-1.5 outline-none ring-ring hover:bg-accent focus-visible:ring-2 data-[state=open]:bg-accent">
+      <DropdownMenuTrigger className="w-full rounded-full bg-accent px-2.5 py-1.5 outline-none ring-ring hover:bg-muted focus-visible:ring-2 data-[state=open]:bg-accent">
         <div className="flex items-center gap-4 px-2 py-1.5 text-left text-sm transition-all">
           <Avatar className="size-10 rounded-full">
             <AvatarImage
@@ -30,7 +30,7 @@ export function NavUser({
               alt={user.name}
               className="animate-in fade-in-50 zoom-in-90"
             />
-            <AvatarFallback className="rounded-md">CN</AvatarFallback>
+            <AvatarFallback className="rounded-md">YT</AvatarFallback>
           </Avatar>
           <div className="grid flex-1 leading-none">
             <div className="text-base font-semibold">{user.name}</div>

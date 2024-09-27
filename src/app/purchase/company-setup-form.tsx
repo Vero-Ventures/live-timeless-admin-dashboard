@@ -38,7 +38,7 @@ interface PackageCardProps {
 
 function PackageCard({ title, price }: PackageCardProps) {
   return (
-    <div className="flex flex-col gap-4 rounded-md bg-slate-700 p-4">
+    <div className="flex flex-col gap-4 rounded-md bg-muted p-4">
       <h3 className="text-2xl font-bold">{title}</h3>
       <p>${price}</p>
     </div>

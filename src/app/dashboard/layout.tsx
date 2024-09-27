@@ -8,7 +8,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
     <SidebarLayout>
       <AppSidebar />
       <MobileHeader />
-      <main className="flex h-dvh flex-1 flex-col px-8 pt-6 transition-all duration-300 ease-in-out">
+      <main className="flex min-h-dvh flex-1 flex-col bg-background px-8 py-6 transition-all duration-300 ease-in-out">
         {children}
       </main>
     </SidebarLayout>
