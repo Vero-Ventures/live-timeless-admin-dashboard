@@ -2,7 +2,6 @@ name: Epic
 description: Outline a large body of work or project that is broken down into smaller tasks.
 title: "[epic]: "
 type: "Epic"
-projects: "Vero-Ventures/4"
 body:
   - type: markdown
     attributes:

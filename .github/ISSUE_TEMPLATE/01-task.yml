@@ -2,7 +2,6 @@ name: Task
 description: Define a small, detailed piece of work
 title: "[task]: "
 type: "Task"
-projects: "Vero-Ventures/4"
 body:
   - type: markdown
     attributes:
