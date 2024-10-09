@@ -85,7 +85,7 @@ export default async function Page() {
         <CardHeader className="mb-6 flex flex-row items-center justify-between">
           <CardTitle>Challenge Management</CardTitle>
           <Button asChild>
-            <Link href="#">New Program</Link>
+            <Link href="/dashboard/challenges/create">New Challenge</Link>
           </Button>
         </CardHeader>
         <CardContent className="p-0">
