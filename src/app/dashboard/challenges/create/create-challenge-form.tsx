@@ -24,8 +24,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useEffect, useMemo, useState } from "react";
-import { Zen_Tokyo_Zoo } from "next/font/google";
+import { useMemo, useState } from "react";
 
 const REPEATS = [
   "Sunday",
