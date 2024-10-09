@@ -8,70 +8,70 @@ import Link from "next/link";
 const data: TableData[] = [
   {
     id: "1",
-    name: "<Wellness Program Name>",
+    name: "<Challenge Name>",
     goal: '"Practice mindfulness for 10 minutes each day"; "Practice mind...',
     users: 100,
     engagement: 50,
   },
   {
     id: "2",
-    name: "<Wellness Program Name>",
+    name: "<Challenge Name>",
     goal: '"Practice mindfulness for 10 minutes each day"; "Practice mind...',
     users: 100,
     engagement: 50,
   },
   {
     id: "3",
-    name: "<Wellness Program Name>",
+    name: "<Challenge Name>",
     goal: '"Practice mindfulness for 10 minutes each day"; "Practice mind...',
     users: 100,
     engagement: 50,
   },
   {
     id: "4",
-    name: "<Wellness Program Name>",
+    name: "<Challenge Name>",
     goal: '"Practice mindfulness for 10 minutes each day"; "Practice mind...',
     users: 100,
     engagement: 50,
   },
   {
     id: "5",
-    name: "<Wellness Program Name>",
+    name: "<Challenge Name>",
     goal: '"Practice mindfulness for 10 minutes each day"; "Practice mind...',
     users: 100,
     engagement: 50,
   },
   {
     id: "6",
-    name: "<Wellness Program Name>",
+    name: "<Challenge Name>",
     goal: '"Practice mindfulness for 10 minutes each day"; "Practice mind...',
     users: 100,
     engagement: 50,
   },
   {
     id: "7",
-    name: "<Wellness Program Name>",
+    name: "<Challenge Name>",
     goal: '"Practice mindfulness for 10 minutes each day"; "Practice mind...',
     users: 100,
     engagement: 50,
   },
   {
     id: "8",
-    name: "<Wellness Program Name>",
+    name: "<Challenge Name>",
     goal: '"Practice mindfulness for 10 minutes each day"; "Practice mind...',
     users: 100,
     engagement: 50,
   },
   {
     id: "9",
-    name: "<Wellness Program Name>",
+    name: "<Challenge Name>",
     goal: '"Practice mindfulness for 10 minutes each day"; "Practice mind...',
     users: 100,
     engagement: 50,
   },
   {
     id: "10",
-    name: "<Wellness Program Name>",
+    name: "<Challenge Name>",
     goal: '"Practice mindfulness for 10 minutes each day"; "Practice mind...',
     users: 100,
     engagement: 50,
@@ -80,12 +80,12 @@ const data: TableData[] = [
 export default async function Page() {
   return (
     <>
-      <Heading variant="h1">Wellness Programs</Heading>
+      <Heading variant="h1">Challenges</Heading>
       <Card className="border-none">
         <CardHeader className="mb-6 flex flex-row items-center justify-between">
-          <CardTitle>Program Management</CardTitle>
+          <CardTitle>Challenge Management</CardTitle>
           <Button asChild>
-            <Link href="#">New Program</Link>
+            <Link href="/dashboard/challenges/create">New Challenge</Link>
           </Button>
         </CardHeader>
         <CardContent className="p-0">
