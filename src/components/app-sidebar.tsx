@@ -18,8 +18,8 @@ const navMain = [
     url: "/dashboard",
   },
   {
-    title: "Wellness Programs",
-    url: "/dashboard/wellness-programs",
+    title: "Challenges",
+    url: "/dashboard/challenges",
   },
   {
     title: "Report and Analytics",
