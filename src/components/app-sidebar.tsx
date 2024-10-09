@@ -11,11 +11,12 @@ import {
 } from "@/components/ui/sidebar";
 import Image from "next/image";
 import { NavMain } from "@/components/ui/nav-main";
+import Link from "next/link";
 
 const navMain = [
   {
     title: "Dashboard",
-    url: "/dashboard",
+    url: "/dashboard/home",
   },
   {
     title: "Challenges",
@@ -37,7 +38,10 @@ export function AppSidebar() {
   return (
     <Sidebar>
       <SidebarHeader>
-        <div className="relative mx-auto mt-8 h-[36px] w-[151px] px-4 py-1.5">
+        <Link
+          href="/dashboard/home"
+          className="relative mx-auto mt-8 h-[36px] w-[151px] px-4 py-1.5"
+        >
           <Image
             src="/logo.svg"
             alt="Logo"
@@ -47,7 +51,7 @@ export function AppSidebar() {
             height={0}
             quality={100}
           />
-        </div>
+        </Link>
       </SidebarHeader>
       <SidebarContent className="mt-8">
         <SidebarItem className="flex flex-1 flex-col justify-center">

@@ -24,27 +24,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useMemo, useState } from "react";
-
-const REPEATS = [
-  "Sunday",
-  "Monday",
-  "Tuesday",
-  "Wednesday",
-  "Thursday",
-  "Friday",
-  "Saturday",
-];
-
-const UNIT_TYPES = [
-  "General",
-  "Scalar",
-  "Mass",
-  "Volume",
-  "Duration",
-  "Energy",
-  "Length",
-] as const;
+import { RECURRENCE, REPEATS, UNIT_RANGES, UNIT_TYPES } from "./constants";
+import { Label } from "@/components/ui/label";
 
 const challengeFormSchema = z.object({
   name: z.string().min(1),
@@ -55,6 +36,9 @@ const challengeFormSchema = z.object({
     to: z.date(),
   }),
   unitType: z.enum(UNIT_TYPES),
+  unitValue: z.coerce.number(),
+  unit: z.string(),
+  recurrence: z.enum(RECURRENCE),
 });
 
 type ChallengeFormSchema = z.infer<typeof challengeFormSchema>;
@@ -64,8 +48,11 @@ export default function CreateChallengeForm() {
     resolver: zodResolver(challengeFormSchema),
     defaultValues: {
       name: "",
-      unitType: "General",
       description: "",
+      unitType: "General",
+      unitValue: 1,
+      unit: "times",
+      recurrence: "per day",
       repeat: REPEATS,
       duration: {
         from: new Date(),
@@ -73,18 +60,24 @@ export default function CreateChallengeForm() {
       },
     },
   });
+
   const unitType = form.watch("unitType");
+  const unit = form.watch("unit");
+
+  const units = Object.keys(UNIT_RANGES[unitType]);
+
+  const minValue = UNIT_RANGES[unitType][unit].min;
+  const maxValue = UNIT_RANGES[unitType][unit].max;
+  const step = UNIT_RANGES[unitType][unit].step;
 
   function onSubmit(values: ChallengeFormSchema) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
     console.log(values);
   }
   return (
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="max-w-md space-y-8"
+        className="max-w-xl space-y-8"
       >
         <FormField
           control={form.control}
@@ -118,7 +111,18 @@ export default function CreateChallengeForm() {
           render={({ field }) => (
             <FormItem>
               <FormLabel>Unit Type</FormLabel>
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
+              <Select
+                onValueChange={(unitType: (typeof UNIT_TYPES)[number]) => {
+                  const units = Object.keys(UNIT_RANGES[unitType]);
+                  form.setValue("unit", units[0]);
+                  form.setValue(
+                    "unitValue",
+                    UNIT_RANGES[unitType][units[0]].min
+                  );
+                  field.onChange(unitType);
+                }}
+                defaultValue={field.value}
+              >
                 <FormControl>
                   <SelectTrigger>
                     <SelectValue placeholder="Select an unit type" />
@@ -126,7 +130,9 @@ export default function CreateChallengeForm() {
                 </FormControl>
                 <SelectContent>
                   {UNIT_TYPES.map((unitType) => (
-                    <SelectItem value={unitType}>{unitType}</SelectItem>
+                    <SelectItem key={unitType} value={unitType}>
+                      {unitType}
+                    </SelectItem>
                   ))}
                 </SelectContent>
               </Select>
@@ -134,181 +140,89 @@ export default function CreateChallengeForm() {
             </FormItem>
           )}
         />
-        {unitType === "General" ? (
-          <GoalSelect
-            key={unitType}
-            units={["times", "minutes"]}
-            ranges={{
-              times: {
-                min: 1,
-                max: 1000,
-                step: 1,
-              },
-              minutes: {
-                min: 1,
-                max: 1200,
-                step: 1,
-              },
-            }}
-          />
-        ) : unitType === "Scalar" ? (
-          <GoalSelect
-            key={unitType}
-            units={["times", "steps"]}
-            ranges={{
-              times: {
-                min: 1,
-                max: 1000,
-                step: 1,
-              },
-              steps: {
-                min: 1000,
-                max: 9900,
-                step: 1000,
-              },
-            }}
-          />
-        ) : unitType === "Mass" ? (
-          <GoalSelect
-            key={unitType}
-            units={["kg", "grams", "mg", "oz", "pounds", "µg"]}
-            ranges={{
-              kg: {
-                min: 1,
-                max: 1000,
-                step: 1,
-              },
-              grams: {
-                min: 5,
-                max: 4995,
-                step: 5,
-              },
-              mg: {
-                min: 1,
-                max: 10000,
-                step: 1,
-              },
-              oz: {
-                min: 1,
-                max: 1000,
-                step: 1,
-              },
-              pounds: {
-                min: 1,
-                max: 1000,
-                step: 1,
-              },
-              µg: {
-                min: 5,
-                max: 4995,
-                step: 5,
-              },
-            }}
-          />
-        ) : unitType === "Volume" ? (
-          <GoalSelect
-            key={unitType}
-            units={["litres", "mL", "US fl oz", "cups"]}
-            ranges={{
-              litres: {
-                min: 1,
-                max: 1000,
-                step: 1,
-              },
-              mL: {
-                min: 100,
-                max: 29900,
-                step: 100,
-              },
-              "US fl oz": {
-                min: 5,
-                max: 995,
-                step: 5,
-              },
-              cups: {
-                min: 1,
-                max: 1000,
-                step: 1,
-              },
-            }}
-          />
-        ) : unitType === "Duration" ? (
-          <GoalSelect
-            key={unitType}
-            units={["min", "hours"]}
-            ranges={{
-              min: {
-                min: 1,
-                max: 1200,
-                step: 1,
-              },
-              hours: {
-                min: 1,
-                max: 1000,
-                step: 1,
-              },
-            }}
-          />
-        ) : unitType === "Energy" ? (
-          <GoalSelect
-            key={unitType}
-            units={["kilojoules", "cal", "kcal", "joules"]}
-            ranges={{
-              joules: {
-                min: 1000,
-                max: 99000,
-                step: 1000,
-              },
-              kilojoules: {
-                min: 50,
-                max: 41950,
-                step: 50,
-              },
-              cal: {
-                min: 500,
-                max: 1999500,
-                step: 500,
-              },
-              kcal: {
-                min: 100,
-                max: 9900,
-                step: 100,
-              },
-            }}
-          />
-        ) : unitType === "Length" ? (
-          <GoalSelect
-            key={unitType}
-            units={["km", "metres", "feet", "yards", "miles"]}
-            ranges={{
-              metres: {
-                min: 10,
-                max: 49990,
-                step: 10,
-              },
-              km: {
-                min: 1,
-                max: 1000,
-                step: 1,
-              },
-              miles: {
-                min: 1,
-                max: 1000,
-                step: 1,
-              },
-              feet: {
-                min: 100,
-                max: 99900,
-                step: 100,
-              },
-              yards: {
-                min: 50,
-                max: 49950,
-                step: 50,
-              },
-            }}
-          />
-        ) : null}
+        <div className="flex flex-col gap-2">
+          <Label>Goal</Label>
+          <div className="flex gap-2">
+            <FormField
+              control={form.control}
+              name="unitValue"
+              render={({ field }) => (
+                <FormItem className="w-full">
+                  <FormControl>
+                    <Input
+                      type="number"
+                      min={minValue}
+                      max={maxValue}
+                      step={step}
+                      value={field.value}
+                      onChange={field.onChange}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="unit"
+              render={({ field }) => (
+                <FormItem className="w-full">
+                  <Select
+                    key={unitType}
+                    onValueChange={(unit) => {
+                      form.setValue(
+                        "unitValue",
+                        UNIT_RANGES[unitType][unit].min
+                      );
+                      field.onChange(unit);
+                    }}
+                    defaultValue={field.value}
+                  >
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select a unit" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {units.map((unit) => (
+                        <SelectItem key={unit} value={unit}>
+                          {unit}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="recurrence"
+              render={({ field }) => (
+                <FormItem className="w-full">
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select a recurrence" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {RECURRENCE.map((recurrence) => (
+                        <SelectItem key={recurrence} value={recurrence}>
+                          {recurrence}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+        </div>
         <FormField
           control={form.control}
           name="repeat"
@@ -348,67 +262,10 @@ export default function CreateChallengeForm() {
             </FormItem>
           )}
         />
-        <Button type="submit" className="w-full">
+        <Button type="submit" size="lg" className="w-full">
           Submit
         </Button>
       </form>
     </Form>
-  );
-}
-const RECURRENCE = ["per day", "per week", "per month"] as const;
-
-function GoalSelect<TUnit extends string>({
-  ranges,
-  units,
-}: {
-  units: TUnit[];
-  ranges: {
-    [key in TUnit]: {
-      min: number;
-      max: number;
-      step: number;
-    };
-  };
-}) {
-  const [unit, setUnit] = useState<TUnit>(units[0]);
-  const { minValue, maxValue, step } = useMemo(() => {
-    return {
-      minValue: ranges[unit].min,
-      maxValue: ranges[unit].max,
-      step: ranges[unit].step,
-    };
-  }, [unit, ranges]);
-
-  return (
-    <div className="flex gap-2">
-      <Input
-        key={unit}
-        type="number"
-        min={minValue}
-        max={maxValue}
-        step={step}
-        defaultValue={minValue}
-      />
-      <Select defaultValue={unit} onValueChange={setUnit}>
-        <SelectTrigger>
-          <SelectValue placeholder="Select an unit" />
-        </SelectTrigger>
-        <SelectContent>
-          {units.map((unit) => (
-            <SelectItem value={unit}>{unit}</SelectItem>
-          ))}
-        </SelectContent>
-      </Select>
-      <Select defaultValue="per day">
-        <SelectTrigger>
-          <SelectValue placeholder="Select an recurrence" />
-        </SelectTrigger>
-        <SelectContent>
-          {RECURRENCE.map((recurrence) => (
-            <SelectItem value={recurrence}>{recurrence}</SelectItem>
-          ))}
-        </SelectContent>
-      </Select>
-    </div>
   );
 }

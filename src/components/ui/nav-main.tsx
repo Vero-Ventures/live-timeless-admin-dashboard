@@ -21,7 +21,7 @@ export function NavMain({
   const pathname = usePathname();
 
   const isActive = (url: string) => {
-    return pathname === url;
+    return pathname.includes(url);
   };
 
   if (!items?.length) {

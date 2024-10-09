@@ -103,7 +103,9 @@ export function CompanySetupForm() {
                     </FormControl>
                     <SelectContent>
                       {INDUSTRIES.map((industry) => (
-                        <SelectItem value={industry}>{industry}</SelectItem>
+                        <SelectItem key={industry} value={industry}>
+                          {industry}
+                        </SelectItem>
                       ))}
                     </SelectContent>
                   </Select>
@@ -128,7 +130,9 @@ export function CompanySetupForm() {
                     </FormControl>
                     <SelectContent>
                       {SIZES.map((size) => (
-                        <SelectItem value={size}>{size}</SelectItem>
+                        <SelectItem key={size} value={size}>
+                          {size}
+                        </SelectItem>
                       ))}
                     </SelectContent>
                   </Select>
@@ -170,7 +174,9 @@ export function CompanySetupForm() {
                     </FormControl>
                     <SelectContent>
                       {COUNTRIES.map((country) => (
-                        <SelectItem value={country}>{country}</SelectItem>
+                        <SelectItem key={country} value={country}>
+                          {country}
+                        </SelectItem>
                       ))}
                     </SelectContent>
                   </Select>
