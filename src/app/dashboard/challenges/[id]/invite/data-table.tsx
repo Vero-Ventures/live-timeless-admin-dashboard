@@ -23,9 +23,9 @@ import {
 } from "@/components/ui/table";
 
 import { useState } from "react";
-import { DataTablePagination } from "../../../components/ui/pagination";
+import { DataTablePagination } from "@/components/ui/pagination";
 import { Button } from "@/components/ui/button";
-import { Trash2 } from "lucide-react";
+import { Mail, Trash2, User2 } from "lucide-react";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -56,7 +56,7 @@ export function DataTable<TData, TValue>({
     },
   });
 
-  const deleteSelectedRows = () => {
+  const inviteSelectedRows = () => {
     const selectedRows = table.getFilteredSelectedRowModel().rows;
     console.log(selectedRows);
   };
@@ -65,21 +65,20 @@ export function DataTable<TData, TValue>({
     <div>
       <div className="flex items-center justify-between gap-4 px-4 py-4">
         <Input
-          placeholder="Filter goals..."
-          value={(table.getColumn("goal")?.getFilterValue() as string) ?? ""}
+          placeholder="Filter participants..."
+          value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
           onChange={(e) =>
-            table.getColumn("goal")?.setFilterValue(e.target.value)
+            table.getColumn("name")?.setFilterValue(e.target.value)
           }
           className="max-w-sm"
         />
         {Object.keys(rowSelection).length > 0 && (
           <Button
-            onClick={deleteSelectedRows}
-            variant="destructive"
+            onClick={inviteSelectedRows}
             className="flex items-center gap-2"
           >
-            <Trash2 />
-            <span>Delete Selected ({Object.keys(rowSelection).length})</span>
+            <Mail />
+            <span>Invite Selected ({Object.keys(rowSelection).length})</span>
           </Button>
         )}
       </div>

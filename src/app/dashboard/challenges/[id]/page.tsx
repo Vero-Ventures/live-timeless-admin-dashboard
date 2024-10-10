@@ -1,20 +1,66 @@
 import Heading from "@/components/heading";
 import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Calendar, ChevronLeft, Infinity, Target } from "lucide-react";
 import Link from "next/link";
+import { DataTable } from "./data-table";
+import { columns, type TableData } from "./columns";
+
+const data: TableData[] = [
+  {
+    id: "1",
+    name: "John Doe",
+  },
+  {
+    id: "2",
+    name: "John Doe",
+  },
+  {
+    id: "3",
+    name: "John Doe",
+  },
+  {
+    id: "4",
+    name: "John Doe",
+  },
+  {
+    id: "5",
+    name: "John Doe",
+  },
+  {
+    id: "6",
+    name: "John Doe",
+  },
+  {
+    id: "7",
+    name: "John Doe",
+  },
+  {
+    id: "8",
+    name: "John Doe",
+  },
+  {
+    id: "9",
+    name: "John Doe",
+  },
+  {
+    id: "10",
+    name: "John Doe",
+  },
+];
 
 export default function SingleChallengePage() {
   return (
     <>
-      <div className="mb-4">
+      <div className="mb-8 flex gap-4">
         <Button asChild variant="ghost">
           <Link href="/dashboard/challenges">
             <ChevronLeft />
           </Link>
         </Button>
-      </div>
-      <div className="mx-auto flex max-w-7xl flex-col gap-8">
         <Heading className="mb-0">Challenge Name</Heading>
+      </div>
+      <div className="flex flex-col gap-8">
         <div className="flex flex-col gap-4">
           <div className="flex gap-2">
             <Target />
@@ -38,7 +84,17 @@ export default function SingleChallengePage() {
             iste ipsum temporibus hic explicabo nisi.
           </p>
         </div>
-        <Button className="w-full xl:w-fit">Invite Users</Button>
+        <Card className="border-none">
+          <CardHeader className="mb-6 flex flex-row items-center justify-between">
+            <CardTitle>Participant Management</CardTitle>
+            <Button asChild>
+              <Link href="/dashboard/challenges/123/invite">Invite Users</Link>
+            </Button>
+          </CardHeader>
+          <CardContent className="p-0">
+            <DataTable columns={columns} data={data} />
+          </CardContent>
+        </Card>
       </div>
     </>
   );
