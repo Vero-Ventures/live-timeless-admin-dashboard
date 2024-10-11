@@ -1,5 +1,3 @@
-"use client";
-
 import { NavUser } from "@/components/nav-user";
 
 import {
@@ -28,12 +26,6 @@ const navMain = [
   },
 ];
 
-const user = {
-  name: "Yaniv Talmor",
-  email: "yaniv@example.com",
-  avatar: "/avatars/shadcn.jpg",
-};
-
 export function AppSidebar() {
   return (
     <Sidebar>
@@ -59,7 +51,7 @@ export function AppSidebar() {
         </SidebarItem>
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={user} />
+        <NavUser />
       </SidebarFooter>
     </Sidebar>
   );

@@ -13,8 +13,10 @@ import {
   InputOTPGroup,
   InputOTPSlot,
 } from "@/components/ui/input-otp";
+import { useRouter } from "next/navigation";
 
 export function SignInForm() {
+  const router = useRouter();
   const { signIn } = useAuthActions();
   const [step, setStep] = useState<"signIn" | { email: string }>("signIn");
   return (
@@ -40,6 +42,7 @@ export function SignInForm() {
               <Label htmlFor="email">Email</Label>
               <Input
                 id="email"
+                name="email"
                 type="email"
                 placeholder="m@example.com"
                 required
@@ -51,31 +54,32 @@ export function SignInForm() {
           </form>
         ) : (
           <form
-            onSubmit={(event) => {
+            onSubmit={async (event) => {
               event.preventDefault();
               const formData = new FormData(event.currentTarget);
-              void signIn("resend-otp", formData);
+              await signIn("resend-otp", formData);
+              router.push("/dashboard/home");
             }}
             className="grid gap-4"
           >
-            <div className="grid gap-2">
-              <InputOTP
-                name="code"
-                maxLength={8}
-                pattern={REGEXP_ONLY_DIGITS_AND_CHARS}
-              >
-                <InputOTPGroup>
-                  <InputOTPSlot index={0} />
-                  <InputOTPSlot index={1} />
-                  <InputOTPSlot index={2} />
-                  <InputOTPSlot index={3} />
-                  <InputOTPSlot index={4} />
-                  <InputOTPSlot index={5} />
-                  <InputOTPSlot index={6} />
-                  <InputOTPSlot index={7} />
-                </InputOTPGroup>
-              </InputOTP>
-            </div>
+            <Input type="hidden" name="email" value={step.email} />
+            <InputOTP
+              name="code"
+              className="mx-auto"
+              maxLength={8}
+              pattern={REGEXP_ONLY_DIGITS_AND_CHARS}
+            >
+              <InputOTPGroup className="mx-auto">
+                <InputOTPSlot index={0} />
+                <InputOTPSlot index={1} />
+                <InputOTPSlot index={2} />
+                <InputOTPSlot index={3} />
+                <InputOTPSlot index={4} />
+                <InputOTPSlot index={5} />
+                <InputOTPSlot index={6} />
+                <InputOTPSlot index={7} />
+              </InputOTPGroup>
+            </InputOTP>
             <Button type="submit" size="lg" className="w-full font-semibold">
               Continue
             </Button>
