@@ -45,6 +45,7 @@ export type PublicApiType = {
         unit: string;
         unitType: string;
         unitValue: number;
+        weeks: number;
       },
       any
     >;
@@ -67,10 +68,17 @@ export type PublicApiType = {
         unit: string;
         unitType: string;
         unitValue: number;
+        weeks: number;
       },
       any
     >;
     deleteGoal: FunctionReference<
+      "mutation",
+      "public",
+      { goalId: Id<"goals"> },
+      any
+    >;
+    deleteGoalAndGoalLogs: FunctionReference<
       "mutation",
       "public",
       { goalId: Id<"goals"> },
@@ -94,6 +102,56 @@ export type PublicApiType = {
         name: string;
         weight?: number;
       },
+      any
+    >;
+  };
+  goalLogs: {
+    getGoalLogById: FunctionReference<
+      "query",
+      "public",
+      { goalLogId: Id<"goalLogs"> },
+      any
+    >;
+    getGoalLogsbyGoalId: FunctionReference<
+      "query",
+      "public",
+      { goalId: Id<"goals"> },
+      any
+    >;
+    listGoalLogs: FunctionReference<"query", "public", any, any>;
+    createGoalLog: FunctionReference<
+      "mutation",
+      "public",
+      {
+        date: number;
+        goalId: Id<"goals">;
+        isComplete: boolean;
+        unitsCompleted: number;
+      },
+      any
+    >;
+    updateGoalLog: FunctionReference<
+      "mutation",
+      "public",
+      {
+        date?: number;
+        goalId?: Id<"goals">;
+        goalLogId: Id<"goalLogs">;
+        isComplete?: boolean;
+        unitsCompleted?: number;
+      },
+      any
+    >;
+    deleteGoalLog: FunctionReference<
+      "mutation",
+      "public",
+      { goalLogId: Id<"goalLogs"> },
+      any
+    >;
+    createGoalLogsFromGoal: FunctionReference<
+      "mutation",
+      "public",
+      { goalId: Id<"goals"> },
       any
     >;
   };
