@@ -26,6 +26,9 @@ import {
 } from "@/components/ui/select";
 import { RECURRENCE, REPEATS, UNIT_RANGES, UNIT_TYPES } from "./constants";
 import { Label } from "@/components/ui/label";
+import { useMutation } from "convex/react";
+import { api } from "@/api";
+import { useRouter } from "next/navigation";
 
 const challengeFormSchema = z.object({
   name: z.string().min(1),
@@ -44,6 +47,8 @@ const challengeFormSchema = z.object({
 type ChallengeFormSchema = z.infer<typeof challengeFormSchema>;
 
 export default function CreateChallengeForm() {
+  const router = useRouter();
+  const createChallenge = useMutation(api.challenges.createChallenge);
   const form = useForm<ChallengeFormSchema>({
     resolver: zodResolver(challengeFormSchema),
     defaultValues: {
@@ -70,8 +75,20 @@ export default function CreateChallengeForm() {
   const maxValue = UNIT_RANGES[unitType][unit].max;
   const step = UNIT_RANGES[unitType][unit].step;
 
-  function onSubmit(values: ChallengeFormSchema) {
+  async function onSubmit(values: ChallengeFormSchema) {
     console.log(values);
+    await createChallenge({
+      name: values.name,
+      description: values.description,
+      repeat: values.repeat,
+      unitType: values.unitType,
+      unit: values.unit,
+      unitValue: values.unitValue,
+      recurrence: values.recurrence,
+      startDate: values.duration.from.getTime(),
+      endDate: values.duration.to.getTime(),
+    });
+    router.replace("/dashboard/challenges");
   }
   return (
     <Form {...form}>

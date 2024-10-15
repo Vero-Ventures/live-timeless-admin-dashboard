@@ -15,11 +15,11 @@ import { Checkbox } from "@/components/ui/checkbox";
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
 export interface TableData {
-  id: string;
+  _id: string;
   name: string;
   goal: string;
-  users: number;
-  engagement: number;
+  // users: number;
+  // engagement: number;
 }
 
 export const columns: ColumnDef<TableData>[] = [
@@ -76,39 +76,39 @@ export const columns: ColumnDef<TableData>[] = [
       );
     },
   },
-  {
-    accessorKey: "users",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          className="flex items-center gap-2"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          <span>Users</span>
-          <ArrowUpDown className="size-4" />
-        </Button>
-      );
-    },
-  },
-  {
-    accessorKey: "engagement",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          className="flex items-center gap-2"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          <span>Engagement</span>
-          <ArrowUpDown className="size-4" />
-        </Button>
-      );
-    },
-    cell: ({ row }) => {
-      return <div>{`${row.getValue("engagement")} %`}</div>;
-    },
-  },
+  // {
+  //   accessorKey: "users",
+  //   header: ({ column }) => {
+  //     return (
+  //       <Button
+  //         variant="ghost"
+  //         className="flex items-center gap-2"
+  //         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+  //       >
+  //         <span>Users</span>
+  //         <ArrowUpDown className="size-4" />
+  //       </Button>
+  //     );
+  //   },
+  // },
+  // {
+  //   accessorKey: "engagement",
+  //   header: ({ column }) => {
+  //     return (
+  //       <Button
+  //         variant="ghost"
+  //         className="flex items-center gap-2"
+  //         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+  //       >
+  //         <span>Engagement</span>
+  //         <ArrowUpDown className="size-4" />
+  //       </Button>
+  //     );
+  //   },
+  //   cell: ({ row }) => {
+  //     return <div>{`${row.getValue("engagement")} %`}</div>;
+  //   },
+  // },
   {
     id: "actions",
     header: () => <div></div>,
