@@ -155,5 +155,36 @@ export type PublicApiType = {
       any
     >;
   };
+  challenges: {
+    getChallengeById: FunctionReference<
+      "query",
+      "public",
+      { challengeId: Id<"challenges"> },
+      any
+    >;
+    listChallenges: FunctionReference<"query", "public", any, any>;
+    createChallenge: FunctionReference<
+      "mutation",
+      "public",
+      {
+        description: string;
+        endDate: number;
+        name: string;
+        recurrence: string;
+        repeat: Array<string>;
+        startDate: number;
+        unit: string;
+        unitType: string;
+        unitValue: number;
+      },
+      any
+    >;
+    deleteChallenge: FunctionReference<
+      "mutation",
+      "public",
+      { challengeId: Id<"challenges"> },
+      any
+    >;
+  };
 };
 export type InternalApiType = {};
