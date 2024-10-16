@@ -4,13 +4,14 @@ import Heading from "@/components/heading";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { DataTable } from "./data-table";
-import { columns, type TableData } from "./columns";
+import { columns } from "./columns";
 import Link from "next/link";
 import { useQuery } from "convex/react";
 import { api } from "@/api";
 
 export default function Page() {
   const challenges = useQuery(api.challenges.listChallenges);
+  // @ts-ignore - TODO: Incorrect inference should be fixed when we convert to a monorepo.
   const data = challenges?.map((c) => ({
     ...c,
     goal: `${c.unitValue} ${c.unit} ${c.recurrence}`,

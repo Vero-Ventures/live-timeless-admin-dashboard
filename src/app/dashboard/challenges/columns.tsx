@@ -11,11 +11,16 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Checkbox } from "@/components/ui/checkbox";
+import { useMutation } from "convex/react";
+import { api } from "@/api";
+import { useRouter } from "next/navigation";
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
 export interface TableData {
-  _id: string;
+  // _id: Id<"challenges">;
+  // TODO: should be type above but need to convert to monorepo to fix.
+  _id: any;
   name: string;
   goal: string;
   // users: number;
@@ -112,7 +117,10 @@ export const columns: ColumnDef<TableData>[] = [
   {
     id: "actions",
     header: () => <div></div>,
-    cell: () => {
+    cell: ({ row }) => {
+      const deleteChallenge = useMutation(api.challenges.deleteChallenge);
+      const router = useRouter();
+      const challenge = row.original;
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -122,7 +130,12 @@ export const columns: ColumnDef<TableData>[] = [
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <DropdownMenuItem className="flex items-center gap-2">
+            <DropdownMenuItem
+              onClick={() => {
+                router.push(`/dashboard/challenges/${challenge._id}`);
+              }}
+              className="flex items-center gap-2"
+            >
               <Eye className="size-4" />
               <span>View</span>
             </DropdownMenuItem>
@@ -130,7 +143,12 @@ export const columns: ColumnDef<TableData>[] = [
               <Pencil className="size-4" />
               <span>Edit</span>
             </DropdownMenuItem>
-            <DropdownMenuItem className="flex items-center gap-2">
+            <DropdownMenuItem
+              onClick={async () => {
+                await deleteChallenge({ challengeId: challenge._id });
+              }}
+              className="flex items-center gap-2"
+            >
               <Trash2 className="size-4" />
               <span>Delete</span>
             </DropdownMenuItem>
