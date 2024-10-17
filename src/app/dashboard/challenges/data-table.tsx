@@ -26,6 +26,8 @@ import { useState } from "react";
 import { DataTablePagination } from "../../../components/ui/pagination";
 import { Button } from "@/components/ui/button";
 import { Trash2 } from "lucide-react";
+import { useMutation } from "convex/react";
+import { api } from "@/api";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -55,10 +57,15 @@ export function DataTable<TData, TValue>({
       columnFilters,
     },
   });
-
-  const deleteSelectedRows = () => {
+  const deleteChallenge = useMutation(api.challenges.deleteChallenge);
+  const deleteSelectedRows = async () => {
     const selectedRows = table.getFilteredSelectedRowModel().rows;
-    console.log(selectedRows);
+    await Promise.all(
+      selectedRows.map(async (row) =>
+        deleteChallenge({ challengeId: row.original._id })
+      )
+    );
+    setRowSelection({});
   };
 
   return (

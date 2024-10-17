@@ -58,9 +58,6 @@ export default function InviteUsersPage() {
       </div>
       <Heading>Invite Users</Heading>
       <Card className="border-none">
-        <CardHeader className="mb-6 flex flex-row items-center justify-between">
-          <CardTitle>Participant Management</CardTitle>
-        </CardHeader>
         <CardContent className="p-0">
           <DataTable columns={columns} data={data} />
         </CardContent>

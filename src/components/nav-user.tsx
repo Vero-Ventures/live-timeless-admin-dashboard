@@ -21,7 +21,7 @@ export function NavUser() {
   const router = useRouter();
   const { signOut } = useAuthActions();
   const user = useQuery(api.users.currentUser);
-  console.log(user);
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger className="w-full rounded-full bg-accent px-2.5 py-1.5 outline-none ring-ring hover:bg-muted focus-visible:ring-2 data-[state=open]:bg-accent">

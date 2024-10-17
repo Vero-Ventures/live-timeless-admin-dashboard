@@ -56,7 +56,7 @@ export function DataTable<TData, TValue>({
     },
   });
 
-  const deleteSelectedRows = () => {
+  const deleteSelectedRows = async () => {
     const selectedRows = table.getFilteredSelectedRowModel().rows;
     console.log(selectedRows);
   };
