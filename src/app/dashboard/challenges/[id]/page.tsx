@@ -17,49 +17,6 @@ import { useQuery } from "convex/react";
 import { api } from "@/api";
 import { useParams } from "next/navigation";
 
-const data: TableData[] = [
-  {
-    id: "1",
-    name: "John Doe",
-  },
-  {
-    id: "2",
-    name: "John Doe",
-  },
-  {
-    id: "3",
-    name: "John Doe",
-  },
-  {
-    id: "4",
-    name: "John Doe",
-  },
-  {
-    id: "5",
-    name: "John Doe",
-  },
-  {
-    id: "6",
-    name: "John Doe",
-  },
-  {
-    id: "7",
-    name: "John Doe",
-  },
-  {
-    id: "8",
-    name: "John Doe",
-  },
-  {
-    id: "9",
-    name: "John Doe",
-  },
-  {
-    id: "10",
-    name: "John Doe",
-  },
-];
-
 export default function SingleChallengePage() {
   // TODO: Fix type when converted to mono repo
   const params = useParams<{ id: any }>();
@@ -132,7 +89,7 @@ export default function SingleChallengePage() {
             </Button>
           </CardHeader>
           <CardContent className="p-0">
-            <DataTable columns={columns} data={data} />
+            <DataTable columns={columns} data={challenge.participants} />
           </CardContent>
         </Card>
       </div>

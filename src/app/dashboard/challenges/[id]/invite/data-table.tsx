@@ -25,7 +25,7 @@ import {
 import { useState } from "react";
 import { DataTablePagination } from "@/components/ui/pagination";
 import { Button } from "@/components/ui/button";
-import { Mail, Trash2, User2 } from "lucide-react";
+import { Mail } from "lucide-react";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -66,9 +66,9 @@ export function DataTable<TData, TValue>({
       <div className="flex items-center justify-between gap-4 px-4 py-4">
         <Input
           placeholder="Filter users..."
-          value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
+          value={(table.getColumn("email")?.getFilterValue() as string) ?? ""}
           onChange={(e) =>
-            table.getColumn("name")?.setFilterValue(e.target.value)
+            table.getColumn("email")?.setFilterValue(e.target.value)
           }
           className="max-w-sm"
         />

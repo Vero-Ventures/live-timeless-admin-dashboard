@@ -185,6 +185,12 @@ export type PublicApiType = {
       { challengeId: Id<"challenges"> },
       any
     >;
+    getNonInivtedUsers: FunctionReference<
+      "query",
+      "public",
+      Record<string, never>,
+      any
+    >;
   };
 };
 export type InternalApiType = {};

@@ -15,8 +15,8 @@ import { Checkbox } from "@/components/ui/checkbox";
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
 export interface TableData {
-  id: string;
-  name: string;
+  _id: string;
+  email: string;
 }
 
 export const columns: ColumnDef<TableData>[] = [
@@ -44,7 +44,7 @@ export const columns: ColumnDef<TableData>[] = [
     enableHiding: false,
   },
   {
-    accessorKey: "name",
+    accessorKey: "email",
     header: ({ column }) => {
       return (
         <Button
@@ -52,7 +52,7 @@ export const columns: ColumnDef<TableData>[] = [
           className="flex items-center gap-2 p-0"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          <span>Name</span>
+          <span>Email</span>
           <ArrowUpDown className="size-4" />
         </Button>
       );
@@ -74,10 +74,6 @@ export const columns: ColumnDef<TableData>[] = [
             <DropdownMenuItem className="flex items-center gap-2">
               <Eye className="size-4" />
               <span>View</span>
-            </DropdownMenuItem>
-            <DropdownMenuItem className="flex items-center gap-2">
-              <Trash2 className="size-4" />
-              <span>Remove</span>
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
