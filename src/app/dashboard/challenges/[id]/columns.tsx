@@ -18,7 +18,7 @@ import { useParams } from "next/navigation";
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
 export interface TableData {
-  _id: string;
+  _id: any;
   email: string;
 }
 
@@ -65,7 +65,7 @@ export const columns: ColumnDef<TableData>[] = [
     id: "actions",
     header: () => <div></div>,
     cell: ({ row }) => {
-      const params = useParams<{ id: string }>();
+      const params = useParams<{ id: any }>();
       const challengeId = params.id;
       const user = row.original;
       const removeFromChallenge = useMutation(
