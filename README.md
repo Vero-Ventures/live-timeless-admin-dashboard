@@ -1,16 +1,20 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Live Timeless Admin Dashboard
+
+The admin dashboard component of the Live Timeless Dashboard. It will provide organization owners and admins to create wellness challenges for their employees and integrate a reward system via Live Timeless Tokens to reward employees with giftcards.
 
 ## Getting Started
 
-First, run the development server:
+First, copy over the `.env.example` folder and rename it to `.env.local`.
+
+Then, install the dependencies:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
+bun install
+```
+
+Then, run the development server:
+
+```bash
 bun dev
 ```
 
@@ -34,3 +38,5 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+We are using bun as the package manager
