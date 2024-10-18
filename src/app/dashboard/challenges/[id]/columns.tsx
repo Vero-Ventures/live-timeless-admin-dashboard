@@ -11,12 +11,15 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Checkbox } from "@/components/ui/checkbox";
+import { useMutation } from "convex/react";
+import { api } from "@/api";
+import { useParams } from "next/navigation";
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
 export interface TableData {
   _id: string;
-  name: string;
+  email: string;
 }
 
 export const columns: ColumnDef<TableData>[] = [
@@ -44,7 +47,7 @@ export const columns: ColumnDef<TableData>[] = [
     enableHiding: false,
   },
   {
-    accessorKey: "name",
+    accessorKey: "email",
     header: ({ column }) => {
       return (
         <Button
@@ -52,7 +55,7 @@ export const columns: ColumnDef<TableData>[] = [
           className="flex items-center gap-2 p-0"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          <span>Name</span>
+          <span>Email</span>
           <ArrowUpDown className="size-4" />
         </Button>
       );
@@ -61,7 +64,13 @@ export const columns: ColumnDef<TableData>[] = [
   {
     id: "actions",
     header: () => <div></div>,
-    cell: () => {
+    cell: ({ row }) => {
+      const params = useParams<{ id: string }>();
+      const challengeId = params.id;
+      const user = row.original;
+      const removeFromChallenge = useMutation(
+        api.challenges.removeFromChallenge
+      );
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -71,11 +80,20 @@ export const columns: ColumnDef<TableData>[] = [
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <DropdownMenuItem className="flex items-center gap-2">
+            {/* <DropdownMenuItem className="flex items-center gap-2">
               <Eye className="size-4" />
               <span>View</span>
-            </DropdownMenuItem>
-            <DropdownMenuItem className="flex items-center gap-2">
+            </DropdownMenuItem> */}
+            <DropdownMenuItem
+              onClick={async () => {
+                // TODO: Fix types when converted from a monorepo
+                await removeFromChallenge({
+                  challengeId: challengeId,
+                  userId: user._id,
+                });
+              }}
+              className="flex items-center gap-2"
+            >
               <Trash2 className="size-4" />
               <span>Remove</span>
             </DropdownMenuItem>

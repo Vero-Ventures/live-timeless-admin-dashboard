@@ -156,6 +156,12 @@ export type PublicApiType = {
     >;
   };
   challenges: {
+    getChallengeByIdWthHasJoined: FunctionReference<
+      "query",
+      "public",
+      { challengeId: Id<"challenges"> },
+      any
+    >;
     getChallengeById: FunctionReference<
       "query",
       "public",
@@ -189,6 +195,24 @@ export type PublicApiType = {
       "query",
       "public",
       Record<string, never>,
+      any
+    >;
+    joinChallenge: FunctionReference<
+      "mutation",
+      "public",
+      { challengeId: Id<"challenges"> },
+      any
+    >;
+    leaveChallenge: FunctionReference<
+      "mutation",
+      "public",
+      { challengeId: Id<"challenges"> },
+      any
+    >;
+    removeFromChallenge: FunctionReference<
+      "mutation",
+      "public",
+      { challengeId: Id<"challenges">; userId: Id<"users"> },
       any
     >;
   };

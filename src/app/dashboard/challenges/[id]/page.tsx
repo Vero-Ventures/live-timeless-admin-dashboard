@@ -12,7 +12,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { DataTable } from "./data-table";
-import { columns, type TableData } from "./columns";
+import { columns } from "./columns";
 import { useQuery } from "convex/react";
 import { api } from "@/api";
 import { useParams } from "next/navigation";
@@ -84,9 +84,6 @@ export default function SingleChallengePage() {
         <Card className="border-none">
           <CardHeader className="mb-6 flex flex-row items-center justify-between">
             <CardTitle>Participant Management</CardTitle>
-            <Button asChild>
-              <Link href="/dashboard/challenges/123/invite">Invite Users</Link>
-            </Button>
           </CardHeader>
           <CardContent className="p-0">
             <DataTable columns={columns} data={challenge.participants} />
