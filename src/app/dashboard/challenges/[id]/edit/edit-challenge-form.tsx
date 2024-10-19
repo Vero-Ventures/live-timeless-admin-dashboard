@@ -2,7 +2,6 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -28,22 +27,7 @@ import { Label } from "@/components/ui/label";
 import { useMutation } from "convex/react";
 import { api } from "@/api";
 import { useParams, useRouter } from "next/navigation";
-
-const challengeFormSchema = z.object({
-  name: z.string().min(1),
-  description: z.string(),
-  repeat: z.string().array(),
-  duration: z.object({
-    from: z.date(),
-    to: z.date(),
-  }),
-  unitType: z.enum(UNIT_TYPES),
-  unitValue: z.coerce.number(),
-  unit: z.string(),
-  recurrence: z.enum(RECURRENCE),
-});
-
-type ChallengeFormSchema = z.infer<typeof challengeFormSchema>;
+import { challengeFormSchema, ChallengeFormSchema } from "../../schema";
 
 export default function EditChallengeForm({
   initialValues,
