@@ -24,7 +24,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { RECURRENCE, REPEATS, UNIT_RANGES, UNIT_TYPES } from "./constants";
+import { RECURRENCE, REPEATS, UNIT_RANGES, UNIT_TYPES } from "../constants";
 import { Label } from "@/components/ui/label";
 import { useMutation } from "convex/react";
 import { api } from "@/api";
