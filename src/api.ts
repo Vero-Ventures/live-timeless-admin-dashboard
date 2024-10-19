@@ -185,6 +185,23 @@ export type PublicApiType = {
       },
       any
     >;
+    updateChallenge: FunctionReference<
+      "mutation",
+      "public",
+      {
+        challengeId: Id<"challenges">;
+        description: string;
+        endDate: number;
+        name: string;
+        recurrence: string;
+        repeat: Array<string>;
+        startDate: number;
+        unit: string;
+        unitType: string;
+        unitValue: number;
+      },
+      any
+    >;
     deleteChallenge: FunctionReference<
       "mutation",
       "public",
