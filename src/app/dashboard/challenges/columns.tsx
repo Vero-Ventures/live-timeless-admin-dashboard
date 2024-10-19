@@ -139,7 +139,12 @@ export const columns: ColumnDef<TableData>[] = [
               <Eye className="size-4" />
               <span>View</span>
             </DropdownMenuItem>
-            <DropdownMenuItem className="flex items-center gap-2">
+            <DropdownMenuItem
+              onClick={() => {
+                router.push(`/dashboard/challenges/${challenge._id}/edit`);
+              }}
+              className="flex items-center gap-2"
+            >
               <Pencil className="size-4" />
               <span>Edit</span>
             </DropdownMenuItem>
