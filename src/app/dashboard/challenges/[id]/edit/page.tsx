@@ -1,19 +1,20 @@
 "use client";
 
 import Heading from "@/components/heading";
-import EditChallengeForm from "./edit-challenge-form";
 import Link from "next/link";
 import { ChevronLeft, Loader2Icon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useParams } from "next/navigation";
-import { useQuery } from "convex/react";
+import { useMutation, useQuery } from "convex/react";
 import { api } from "@/api";
+import ChallengeForm from "../../challenge-form";
 
 export default function CreateChallengePage() {
   const params = useParams<{ id: any }>();
   const challenge = useQuery(api.challenges.getChallengeById, {
     challengeId: params.id,
   });
+  const updateChallenge = useMutation(api.challenges.updateChallenge);
 
   if (!challenge) {
     return (
@@ -33,7 +34,8 @@ export default function CreateChallengePage() {
         </Button>
         <Heading className="mb-0">Edit Challenge</Heading>
       </div>
-      <EditChallengeForm
+      <ChallengeForm
+        isEditing
         initialValues={{
           name: challenge.name,
           description: challenge.description,
@@ -47,6 +49,7 @@ export default function CreateChallengePage() {
             to: new Date(challenge.endDate),
           },
         }}
+        mutation={updateChallenge}
       />
     </>
   );

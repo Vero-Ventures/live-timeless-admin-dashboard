@@ -23,31 +23,43 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { RECURRENCE, REPEATS, UNIT_RANGES, UNIT_TYPES } from "../constants";
+import { RECURRENCE, REPEATS, UNIT_RANGES, UNIT_TYPES } from "./constants";
 import { Label } from "@/components/ui/label";
-import { useMutation } from "convex/react";
-import { api } from "@/api";
-import { useRouter } from "next/navigation";
-import { challengeFormSchema, ChallengeFormSchema } from "../schema";
+import type { ReactMutation } from "convex/react";
+import { useParams, useRouter } from "next/navigation";
+import { challengeFormSchema, type ChallengeFormSchema } from "./schema";
+import type { FunctionReference } from "convex/server";
 
-export default function CreateChallengeForm() {
+interface ChallengeFormProps {
+  isEditing?: boolean;
+  initialValues?: ChallengeFormSchema;
+  mutation: ReactMutation<FunctionReference<"mutation">>;
+}
+
+export default function ChallengeForm({
+  isEditing = false,
+  initialValues = {
+    name: "",
+    description: "",
+    unitType: "General",
+    unitValue: 1,
+    unit: "times",
+    recurrence: "per day",
+    repeat: REPEATS,
+    duration: {
+      from: new Date(),
+      to: addDays(new Date(), 30),
+    },
+  },
+  mutation,
+}: ChallengeFormProps) {
+  const params = useParams<{ id: any }>();
+  const challengeId = params.id;
+
   const router = useRouter();
-  const createChallenge = useMutation(api.challenges.createChallenge);
   const form = useForm<ChallengeFormSchema>({
     resolver: zodResolver(challengeFormSchema),
-    defaultValues: {
-      name: "",
-      description: "",
-      unitType: "General",
-      unitValue: 1,
-      unit: "times",
-      recurrence: "per day",
-      repeat: REPEATS,
-      duration: {
-        from: new Date(),
-        to: addDays(new Date(), 30),
-      },
-    },
+    defaultValues: initialValues,
   });
 
   const unitType = form.watch("unitType");
@@ -61,7 +73,8 @@ export default function CreateChallengeForm() {
 
   async function onSubmit(values: ChallengeFormSchema) {
     console.log(values);
-    await createChallenge({
+    await mutation({
+      ...(isEditing && { challengeId }),
       name: values.name,
       description: values.description,
       repeat: values.repeat,
@@ -74,6 +87,7 @@ export default function CreateChallengeForm() {
     });
     router.replace("/dashboard/challenges");
   }
+
   return (
     <Form {...form}>
       <form
@@ -264,7 +278,7 @@ export default function CreateChallengeForm() {
           )}
         />
         <Button type="submit" size="lg" className="w-full">
-          Submit
+          {isEditing ? "Save" : "Submit"}
         </Button>
       </form>
     </Form>
