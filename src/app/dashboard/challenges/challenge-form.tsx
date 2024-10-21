@@ -2,7 +2,6 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -27,43 +26,43 @@ import {
 import { RECURRENCE, REPEATS, UNIT_RANGES, UNIT_TYPES } from "./constants";
 import { Label } from "@/components/ui/label";
 import { useMutation } from "convex/react";
-import { api } from "@/api";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
+import { challengeFormSchema, type ChallengeFormSchema } from "./schema";
+import type { PublicApiType } from "@/api";
 
-const challengeFormSchema = z.object({
-  name: z.string().min(1),
-  description: z.string(),
-  repeat: z.string().array(),
-  duration: z.object({
-    from: z.date(),
-    to: z.date(),
-  }),
-  unitType: z.enum(UNIT_TYPES),
-  unitValue: z.coerce.number(),
-  unit: z.string(),
-  recurrence: z.enum(RECURRENCE),
-});
+interface ChallengeFormProps {
+  isEditing?: boolean;
+  initialValues?: ChallengeFormSchema;
+  challengeFunctionReference:
+    | PublicApiType["challenges"]["createChallenge"]
+    | PublicApiType["challenges"]["updateChallenge"];
+}
 
-type ChallengeFormSchema = z.infer<typeof challengeFormSchema>;
+export default function ChallengeForm({
+  isEditing = false,
+  initialValues = {
+    name: "",
+    description: "",
+    unitType: "General",
+    unitValue: 1,
+    unit: "times",
+    recurrence: "per day",
+    repeat: REPEATS,
+    duration: {
+      from: new Date(),
+      to: addDays(new Date(), 30),
+    },
+  },
+  challengeFunctionReference,
+}: ChallengeFormProps) {
+  const params = useParams<{ id: any }>();
+  const challengeId = params.id;
+  const challengeMutation = useMutation(challengeFunctionReference);
 
-export default function CreateChallengeForm() {
   const router = useRouter();
-  const createChallenge = useMutation(api.challenges.createChallenge);
   const form = useForm<ChallengeFormSchema>({
     resolver: zodResolver(challengeFormSchema),
-    defaultValues: {
-      name: "",
-      description: "",
-      unitType: "General",
-      unitValue: 1,
-      unit: "times",
-      recurrence: "per day",
-      repeat: REPEATS,
-      duration: {
-        from: new Date(),
-        to: addDays(new Date(), 30),
-      },
-    },
+    defaultValues: initialValues,
   });
 
   const unitType = form.watch("unitType");
@@ -77,7 +76,8 @@ export default function CreateChallengeForm() {
 
   async function onSubmit(values: ChallengeFormSchema) {
     console.log(values);
-    await createChallenge({
+    await challengeMutation({
+      ...(isEditing && { challengeId }),
       name: values.name,
       description: values.description,
       repeat: values.repeat,
@@ -90,6 +90,7 @@ export default function CreateChallengeForm() {
     });
     router.replace("/dashboard/challenges");
   }
+
   return (
     <Form {...form}>
       <form
@@ -280,7 +281,7 @@ export default function CreateChallengeForm() {
           )}
         />
         <Button type="submit" size="lg" className="w-full">
-          Submit
+          {isEditing ? "Save" : "Submit"}
         </Button>
       </form>
     </Form>
