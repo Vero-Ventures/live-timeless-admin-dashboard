@@ -25,15 +25,17 @@ import {
 } from "@/components/ui/select";
 import { RECURRENCE, REPEATS, UNIT_RANGES, UNIT_TYPES } from "./constants";
 import { Label } from "@/components/ui/label";
-import type { ReactMutation } from "convex/react";
+import { useMutation } from "convex/react";
 import { useParams, useRouter } from "next/navigation";
 import { challengeFormSchema, type ChallengeFormSchema } from "./schema";
-import type { FunctionReference } from "convex/server";
+import type { PublicApiType } from "@/api";
 
 interface ChallengeFormProps {
   isEditing?: boolean;
   initialValues?: ChallengeFormSchema;
-  mutation: ReactMutation<FunctionReference<"mutation">>;
+  challengeFunctionReference:
+    | PublicApiType["challenges"]["createChallenge"]
+    | PublicApiType["challenges"]["updateChallenge"];
 }
 
 export default function ChallengeForm({
@@ -51,10 +53,11 @@ export default function ChallengeForm({
       to: addDays(new Date(), 30),
     },
   },
-  mutation,
+  challengeFunctionReference,
 }: ChallengeFormProps) {
   const params = useParams<{ id: any }>();
   const challengeId = params.id;
+  const challengeMutation = useMutation(challengeFunctionReference);
 
   const router = useRouter();
   const form = useForm<ChallengeFormSchema>({
@@ -73,7 +76,7 @@ export default function ChallengeForm({
 
   async function onSubmit(values: ChallengeFormSchema) {
     console.log(values);
-    await mutation({
+    await challengeMutation({
       ...(isEditing && { challengeId }),
       name: values.name,
       description: values.description,

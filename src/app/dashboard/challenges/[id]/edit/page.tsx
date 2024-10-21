@@ -5,7 +5,7 @@ import Link from "next/link";
 import { ChevronLeft, Loader2Icon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useParams } from "next/navigation";
-import { useMutation, useQuery } from "convex/react";
+import { useQuery } from "convex/react";
 import { api } from "@/api";
 import ChallengeForm from "../../challenge-form";
 
@@ -14,7 +14,6 @@ export default function CreateChallengePage() {
   const challenge = useQuery(api.challenges.getChallengeById, {
     challengeId: params.id,
   });
-  const updateChallenge = useMutation(api.challenges.updateChallenge);
 
   if (!challenge) {
     return (
@@ -49,7 +48,7 @@ export default function CreateChallengePage() {
             to: new Date(challenge.endDate),
           },
         }}
-        mutation={updateChallenge}
+        challengeFunctionReference={api.challenges.updateChallenge}
       />
     </>
   );
