@@ -229,7 +229,45 @@ export type PublicApiType = {
     removeFromChallenge: FunctionReference<
       "mutation",
       "public",
-      { challengeId: Id<"challenges">; userId: Id<"users"> },
+      {
+        challengeId: Id<"challenges">;
+        organizationId: Id<"organizations">;
+        userId: Id<"users">;
+      },
+      any
+    >;
+  };
+  organizations: {
+    getOrganizationBySlug: FunctionReference<
+      "query",
+      "public",
+      { slug: string },
+      any
+    >;
+    updateOrganization: FunctionReference<
+      "mutation",
+      "public",
+      {
+        logo?: string;
+        metadata?: string;
+        name: string;
+        organizationId: Id<"organizations">;
+        slug: string;
+      },
+      any
+    >;
+    deleteOrganization: FunctionReference<
+      "mutation",
+      "public",
+      { organizationId: Id<"organizations"> },
+      any
+    >;
+  };
+  actions: {
+    sendOwnerInvitation: FunctionReference<
+      "action",
+      "public",
+      { orgName: string; owner: { email: string; name: string } },
       any
     >;
   };
