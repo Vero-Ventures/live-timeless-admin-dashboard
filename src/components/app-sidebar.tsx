@@ -21,6 +21,10 @@ const navMain = [
     url: "/dashboard/challenges",
   },
   {
+    title: "Members",
+    url: "/dashboard/members",
+  },
+  {
     title: "Report and Analytics",
     url: "/dashboard/report-analytics",
   },
