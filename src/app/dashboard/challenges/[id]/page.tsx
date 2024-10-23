@@ -82,9 +82,6 @@ export default function SingleChallengePage() {
           <p className="leading-relaxed">{challenge.description}</p>
         </div>
         <Card className="border-none">
-          <CardHeader className="mb-6 flex flex-row items-center justify-between">
-            <CardTitle>Participant Management</CardTitle>
-          </CardHeader>
           <CardContent className="p-0">
             <DataTable columns={columns} data={challenge.participants} />
           </CardContent>

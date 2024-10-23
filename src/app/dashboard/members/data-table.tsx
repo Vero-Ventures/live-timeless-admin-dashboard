@@ -26,8 +26,6 @@ import { useState } from "react";
 import { DataTablePagination } from "../../../components/ui/pagination";
 import { Button } from "@/components/ui/button";
 import { Trash2 } from "lucide-react";
-import { useMutation } from "convex/react";
-import { api } from "@/api";
 import Link from "next/link";
 
 interface DataTableProps<TData, TValue> {
@@ -58,14 +56,9 @@ export function DataTable<TData, TValue>({
       columnFilters,
     },
   });
-  const deleteChallenge = useMutation(api.challenges.deleteChallenge);
   const deleteSelectedRows = async () => {
     const selectedRows = table.getFilteredSelectedRowModel().rows;
-    await Promise.all(
-      selectedRows.map(async (row) =>
-        deleteChallenge({ challengeId: row.original._id })
-      )
-    );
+    console.log(selectedRows);
     setRowSelection({});
   };
 
@@ -73,10 +66,10 @@ export function DataTable<TData, TValue>({
     <div>
       <div className="flex items-center justify-between gap-4 px-4 py-4">
         <Input
-          placeholder="Filter goals..."
-          value={(table.getColumn("goal")?.getFilterValue() as string) ?? ""}
+          placeholder="Filter name..."
+          value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
           onChange={(e) =>
-            table.getColumn("goal")?.setFilterValue(e.target.value)
+            table.getColumn("name")?.setFilterValue(e.target.value)
           }
           className="max-w-sm"
         />
@@ -88,11 +81,11 @@ export function DataTable<TData, TValue>({
               className="flex items-center gap-2"
             >
               <Trash2 />
-              <span>Delete Selected ({Object.keys(rowSelection).length})</span>
+              <span>Remove Selected ({Object.keys(rowSelection).length})</span>
             </Button>
           )}
           <Button asChild>
-            <Link href="/dashboard/challenges/create">New Challenge</Link>
+            <Link href="/dashboard/members/invite">Invite</Link>
           </Button>
         </div>
       </div>

@@ -20,12 +20,6 @@ export default function Page() {
     <>
       <Heading variant="h1">Challenges</Heading>
       <Card className="border-none">
-        <CardHeader className="mb-6 flex flex-row items-center justify-between">
-          <CardTitle>Challenge Management</CardTitle>
-          <Button asChild>
-            <Link href="/dashboard/challenges/create">New Challenge</Link>
-          </Button>
-        </CardHeader>
         <CardContent className="p-0">
           {data && <DataTable columns={columns} data={data} />}
         </CardContent>
