@@ -11,7 +11,6 @@ import {
   getPaginationRowModel,
   getSortedRowModel,
 } from "@tanstack/react-table";
-import { Input } from "@/components/ui/input";
 
 import {
   Table,
@@ -25,8 +24,18 @@ import {
 import { useState } from "react";
 import { DataTablePagination } from "../../../components/ui/pagination";
 import { Button } from "@/components/ui/button";
-import { Trash2 } from "lucide-react";
-import Link from "next/link";
+import { Trash2, UserPlus2 } from "lucide-react";
+import {
+  Dialog,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -84,9 +93,58 @@ export function DataTable<TData, TValue>({
               <span>Remove Selected ({Object.keys(rowSelection).length})</span>
             </Button>
           )}
-          <Button asChild>
-            <Link href="/dashboard/members/invite">Invite</Link>
-          </Button>
+          <Dialog>
+            <DialogTrigger asChild>
+              <Button>Invite</Button>
+            </DialogTrigger>
+            <DialogContent className="sm:max-w-[425px]">
+              <DialogHeader>
+                <DialogTitle className="flex items-center gap-4">
+                  <UserPlus2 />
+                  <span>Invite a member</span>
+                </DialogTitle>
+              </DialogHeader>
+              <div className="grid gap-4 py-4">
+                <div className="grid gap-4">
+                  <Label htmlFor="name">Email</Label>
+                  <Input
+                    id="email"
+                    type="email"
+                    placeholder="collaborator@example.com"
+                    className="col-span-3"
+                  />
+                  <p className="text-sm">
+                    Separate multiple emails with a comma.
+                  </p>
+                </div>
+                <div className="grid gap-4">
+                  <Label htmlFor="name">Role</Label>
+                  <RadioGroup defaultValue="comfortable" className="space-y-4">
+                    <div className="flex items-start space-x-2">
+                      <RadioGroupItem value="admin" id="admin" />
+                      <Label className="text-sm" htmlFor="admin">
+                        <p className="font-semibold">Admin</p>
+                        <p className="text-sm">
+                          Assign admins, manage members, publish and view all
+                          challenges
+                        </p>
+                      </Label>
+                    </div>
+                    <div className="flex items-start space-x-2">
+                      <RadioGroupItem value="user" id="user" />
+                      <Label className="text-sm" htmlFor="user">
+                        <p className="font-semibold">User</p>
+                        <p className="text-sm">View challenges</p>
+                      </Label>
+                    </div>
+                  </RadioGroup>
+                </div>
+              </div>
+              <DialogFooter>
+                <Button type="submit">Send Invitation</Button>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
         </div>
       </div>
       <div className="rounded-md">
