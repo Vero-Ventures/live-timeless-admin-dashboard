@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { SidebarTrigger } from "./ui/sidebar";
+import { MobileSidebarTrigger } from "./ui/sidebar";
 
 export default function MobileHeader() {
   return (
@@ -15,7 +15,7 @@ export default function MobileHeader() {
           quality={100}
         />
       </div>
-      <SidebarTrigger />
+      <MobileSidebarTrigger />
     </header>
   );
 }
