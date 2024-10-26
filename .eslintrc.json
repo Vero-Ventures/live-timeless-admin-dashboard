@@ -1,9 +1,5 @@
 {
-  "extends": [
-    "plugin:@typescript-eslint/recommended",
-    "plugin:drizzle/recommended",
-    "next/core-web-vitals"
-  ],
+  "extends": ["plugin:@typescript-eslint/recommended", "next/core-web-vitals"],
   "parser": "@typescript-eslint/parser",
   "rules": {
     "@typescript-eslint/no-explicit-any": "warn",

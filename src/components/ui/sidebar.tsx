@@ -2,7 +2,8 @@
 
 import * as React from "react";
 import { Slot } from "@radix-ui/react-slot";
-import { VariantProps, cva } from "class-variance-authority";
+import type { VariantProps } from "class-variance-authority";
+import { cva } from "class-variance-authority";
 import { Menu, PanelLeft } from "lucide-react";
 
 import { useIsMobile } from "@/hooks/use-mobile";
@@ -310,7 +311,8 @@ const MobileSidebarTrigger = React.forwardRef<
     </Button>
   );
 });
-SidebarTrigger.displayName = "SidebarTrigger";
+
+MobileSidebarTrigger.displayName = "SidebarTrigger";
 
 const SidebarRail = React.forwardRef<
   HTMLButtonElement,
