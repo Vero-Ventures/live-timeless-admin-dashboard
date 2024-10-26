@@ -1,42 +1,48 @@
-import { NavUser } from "@/components/nav-user";
+"use client";
+import { Home, Target, Users2 } from "lucide-react";
 
 import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
+  SidebarGroup,
+  SidebarGroupContent,
   SidebarHeader,
-  SidebarItem,
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import Image from "next/image";
-import { NavMain } from "@/components/ui/nav-main";
 import Link from "next/link";
+import Image from "next/image";
+import UserNav from "./user-nav";
+import { usePathname } from "next/navigation";
 
-const navMain = [
+const items = [
   {
-    title: "Dashboard",
+    title: "Home",
     url: "/dashboard/home",
+    icon: Home,
   },
   {
     title: "Challenges",
     url: "/dashboard/challenges",
+    icon: Target,
   },
   {
     title: "Members",
     url: "/dashboard/members",
-  },
-  {
-    title: "Report and Analytics",
-    url: "/dashboard/report-analytics",
+    icon: Users2,
   },
 ];
 
 export function AppSidebar() {
+  const pathname = usePathname();
   return (
-    <Sidebar>
+    <Sidebar className="group-data-[side=left]:border-r-0">
       <SidebarHeader>
         <Link
           href="/dashboard/home"
-          className="relative mx-auto mt-8 h-[36px] w-[151px] px-4 py-1.5"
+          className="relative mx-auto my-4 h-[36px] w-[151px]"
         >
           <Image
             src="/logo.svg"
@@ -49,13 +55,30 @@ export function AppSidebar() {
           />
         </Link>
       </SidebarHeader>
-      <SidebarContent className="mt-8">
-        <SidebarItem className="flex flex-1 flex-col justify-center">
-          <NavMain items={navMain} />
-        </SidebarItem>
+      <SidebarContent>
+        <SidebarGroup>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              {items.map((item) => (
+                <SidebarMenuItem key={item.title}>
+                  <SidebarMenuButton
+                    size="lg"
+                    asChild
+                    isActive={pathname.includes(item.url)}
+                  >
+                    <Link href={item.url}>
+                      <item.icon className="size-8" />
+                      <span>{item.title}</span>
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              ))}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
       </SidebarContent>
       <SidebarFooter>
-        <NavUser />
+        <UserNav />
       </SidebarFooter>
     </Sidebar>
   );
