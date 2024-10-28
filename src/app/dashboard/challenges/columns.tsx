@@ -1,6 +1,6 @@
 "use client";
 
-import { ColumnDef } from "@tanstack/react-table";
+import type { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown } from "lucide-react";
 import { Eye, MoreHorizontal, Pencil, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -152,7 +152,7 @@ export const columns: ColumnDef<TableData>[] = [
               onClick={async () => {
                 await deleteChallenge({ challengeId: challenge._id });
               }}
-              className="flex items-center gap-2"
+              className="flex items-center gap-2 text-destructive focus:text-destructive"
             >
               <Trash2 className="size-4" />
               <span>Delete</span>

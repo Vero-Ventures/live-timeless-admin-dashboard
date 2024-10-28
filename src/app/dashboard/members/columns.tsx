@@ -1,7 +1,7 @@
 "use client";
 
-import { ColumnDef } from "@tanstack/react-table";
-import { ArrowUpDown } from "lucide-react";
+import type { ColumnDef } from "@tanstack/react-table";
+import { ArrowUpDown, Ban, Send } from "lucide-react";
 import { Eye, MoreHorizontal, Pencil, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -14,15 +14,17 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { useMutation } from "convex/react";
 import { api } from "@/api";
 import { useRouter } from "next/navigation";
+import { Badge } from "@/components/ui/badge";
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
 // TODO: should be type above but need to convert to monorepo to fix.
 export interface TableData {
   _id: any;
-  name: string;
+  name?: string;
   email: string;
   role: string;
+  status?: string;
 }
 
 export const columns: ColumnDef<TableData>[] = [
@@ -63,6 +65,16 @@ export const columns: ColumnDef<TableData>[] = [
         </Button>
       );
     },
+    cell: ({ row }) => (
+      <div className="space-y-2">
+        <div>{row.getValue("name") || row.getValue("email")}</div>
+        {row.original.status && (
+          <Badge variant="outline">
+            Invitation {row.original.status}, sent Oct 28, 2024
+          </Badge>
+        )}
+      </div>
+    ),
   },
   {
     accessorKey: "email",
@@ -93,6 +105,11 @@ export const columns: ColumnDef<TableData>[] = [
         </Button>
       );
     },
+    cell: ({ row }) => (
+      <div>
+        <div className="capitalize">{row.getValue("role")}</div>
+      </div>
+    ),
   },
   {
     id: "actions",
@@ -108,13 +125,32 @@ export const columns: ColumnDef<TableData>[] = [
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <DropdownMenuItem
-              onClick={async () => {}}
-              className="flex items-center gap-2"
-            >
-              <Trash2 className="size-4" />
-              <span>Remove member</span>
-            </DropdownMenuItem>
+            {!member.status ? (
+              <DropdownMenuItem
+                onClick={async () => {}}
+                className="flex cursor-pointer items-center gap-2 text-destructive focus:text-destructive"
+              >
+                <Trash2 className="size-4" />
+                <span>Remove member</span>
+              </DropdownMenuItem>
+            ) : (
+              <>
+                <DropdownMenuItem
+                  onClick={async () => {}}
+                  className="flex cursor-pointer items-center gap-2"
+                >
+                  <Send className="size-4" />
+                  <span>Resend Invitation Email</span>
+                </DropdownMenuItem>
+                <DropdownMenuItem
+                  onClick={async () => {}}
+                  className="flex cursor-pointer items-center gap-2 text-destructive focus:text-destructive"
+                >
+                  <Ban className="size-4" />
+                  <span>Cancel Invitation</span>
+                </DropdownMenuItem>
+              </>
+            )}
           </DropdownMenuContent>
         </DropdownMenu>
       );

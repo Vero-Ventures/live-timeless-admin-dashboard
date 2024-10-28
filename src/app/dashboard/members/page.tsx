@@ -26,15 +26,14 @@ const data = [
   },
   {
     _id: "507f1f77bcf86cd799439014",
-    name: "Diana Prince",
     email: "diana.prince@example.com",
     role: "user",
   },
   {
     _id: "507f1f77bcf86cd799439015",
-    name: "Ethan Hunt",
     email: "ethan.hunt@example.com",
     role: "user",
+    status: "pending",
   },
 ];
 
