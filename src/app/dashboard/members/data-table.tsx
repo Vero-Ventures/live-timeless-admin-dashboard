@@ -38,6 +38,8 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { useMutation } from "convex/react";
+import { api } from "@/api";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -67,6 +69,21 @@ export function DataTable<TData, TValue>({
       columnFilters,
     },
   });
+  const [email, setEmail] = useState("");
+  const [role, setRole] = useState("");
+  const sendUserInvitation = useMutation(api.invitations.sendUserInvitation);
+
+  const handleSubmit = async () => {
+    if (validateEmail(email) && role) {
+      sendUserInvitation({
+        email,
+        role,
+      });
+      setEmail("");
+      setRole("");
+    }
+  };
+
   const deleteSelectedRows = async () => {
     const selectedRows = table.getFilteredSelectedRowModel().rows;
     console.log(selectedRows);
@@ -114,6 +131,9 @@ export function DataTable<TData, TValue>({
                     type="email"
                     placeholder="collaborator@example.com"
                     className="col-span-3"
+                    multiple
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
                   />
                   <p className="text-sm">
                     Separate multiple emails with a comma.
@@ -121,7 +141,12 @@ export function DataTable<TData, TValue>({
                 </div>
                 <div className="grid gap-4">
                   <Label htmlFor="name">Role</Label>
-                  <RadioGroup defaultValue="comfortable" className="space-y-4">
+                  <RadioGroup
+                    defaultValue="comfortable"
+                    className="space-y-4"
+                    value={role}
+                    onValueChange={(role) => setRole(role)}
+                  >
                     <div className="flex items-start space-x-2">
                       <RadioGroupItem value="admin" id="admin" />
                       <Label className="text-sm" htmlFor="admin">
@@ -143,7 +168,9 @@ export function DataTable<TData, TValue>({
                 </div>
               </div>
               <DialogFooter>
-                <Button type="submit">Send Invitation</Button>
+                <Button type="submit" onClick={handleSubmit}>
+                  Send Invitation
+                </Button>
               </DialogFooter>
             </DialogContent>
           </Dialog>
@@ -202,4 +229,8 @@ export function DataTable<TData, TValue>({
       <DataTablePagination table={table} />
     </div>
   );
+}
+function validateEmail(email: string) {
+  const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailPattern.test(email);
 }
