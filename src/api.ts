@@ -263,11 +263,47 @@ export type PublicApiType = {
       any
     >;
   };
-  actions: {
+  invitations: {
     sendOwnerInvitation: FunctionReference<
-      "action",
+      "mutation",
       "public",
       { orgName: string; owner: { email: string; name: string } },
+      any
+    >;
+    sendUserInvitation: FunctionReference<
+      "mutation",
+      "public",
+      {
+        email: string;
+        expiresAt: number;
+        organizationId: Id<"organizations">;
+        role: string;
+      },
+      any
+    >;
+    resendUserInvitation: FunctionReference<
+      "mutation",
+      "public",
+      {
+        email: string;
+        expiresAt: number;
+        organizationId: Id<"organizations">;
+        role: string;
+      },
+      any
+    >;
+    acceptInvitation: FunctionReference<
+      "mutation",
+      "public",
+      { invitationId: Id<"invitations"> },
+      any
+    >;
+  };
+  members: {
+    updateMemberRole: FunctionReference<
+      "mutation",
+      "public",
+      { memberId: Id<"members">; role: string },
       any
     >;
   };
