@@ -68,7 +68,7 @@ export const columns: ColumnDef<TableData>[] = [
     cell: ({ row }) => (
       <div className="space-y-2">
         <div>{row.getValue("name") || row.getValue("email")}</div>
-        {row.original.status && (
+        {row.original.status === "pending" && (
           <Badge variant="outline">
             Invitation {row.original.status}, sent Oct 28, 2024
           </Badge>
@@ -125,7 +125,7 @@ export const columns: ColumnDef<TableData>[] = [
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            {!member.status ? (
+            {member.status !== "pending" ? (
               <DropdownMenuItem
                 onClick={async () => {}}
                 className="flex cursor-pointer items-center gap-2 text-destructive focus:text-destructive"
