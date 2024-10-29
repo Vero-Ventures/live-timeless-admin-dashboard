@@ -50,6 +50,7 @@ export function DataTable<TData, TValue>({
   columns,
   data,
 }: DataTableProps<TData, TValue>) {
+  const [open, setOpen] = useState(false);
   const [sorting, setSorting] = useState<SortingState>([]);
   const [rowSelection, setRowSelection] = useState({});
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
@@ -72,6 +73,9 @@ export function DataTable<TData, TValue>({
   const [email, setEmail] = useState("");
   const [role, setRole] = useState("");
   const sendUserInvitation = useMutation(api.invitations.sendUserInvitation);
+  const deleteInvitation = useMutation(api.invitations.deleteInvitation);
+  const deleteUser = useMutation(api.users.deleteUser);
+  const deleteAuthAccount = useMutation(api.users.deleteAuthAccount);
 
   const handleSubmit = async () => {
     if (email && role) {
@@ -81,12 +85,25 @@ export function DataTable<TData, TValue>({
       });
       setEmail("");
       setRole("");
+      setRowSelection({});
+      setOpen(false);
     }
   };
 
   const deleteSelectedRows = async () => {
     const selectedRows = table.getFilteredSelectedRowModel().rows;
-    console.log(selectedRows);
+
+    await Promise.all(
+      selectedRows.map(async (row: any) => {
+        const member = row.original;
+        if (member.status !== "pending") {
+          await deleteUser({ userId: member.userId });
+          await deleteAuthAccount({ userId: member.userId });
+        }
+        await deleteInvitation(member._id);
+      })
+    );
+
     setRowSelection({});
   };
 
@@ -112,7 +129,7 @@ export function DataTable<TData, TValue>({
               <span>Remove Selected ({Object.keys(rowSelection).length})</span>
             </Button>
           )}
-          <Dialog>
+          <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
               <Button>Invite</Button>
             </DialogTrigger>
@@ -229,8 +246,4 @@ export function DataTable<TData, TValue>({
       <DataTablePagination table={table} />
     </div>
   );
-}
-function validateEmail(email: string) {
-  const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  return emailPattern.test(email);
 }
