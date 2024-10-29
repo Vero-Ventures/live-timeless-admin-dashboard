@@ -16,7 +16,7 @@ export default function VerifyMember({
         <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-green-100">
           <CheckCircle className="h-10 w-10 text-green-600" />
         </div>
-        <h1 className="text-2xl font-bold">You're Verified!</h1>
+        <h1 className="text-2xl font-bold">You&apos;re Verified!</h1>
         <p>Thank you for verifying your membership.</p>
         <p className="text-center">Download our app to get started:</p>
       </div>
