@@ -300,7 +300,7 @@ export type PublicApiType = {
     deleteInvitation: FunctionReference<
       "mutation",
       "public",
-      { invitationId: Id<"invitations">; organizationId: Id<"organizations"> },
+      { invitationId: Id<"invitations"> },
       any
     >;
   };
