@@ -71,23 +71,23 @@ export function DataTable<TData, TValue>({
       columnFilters,
     },
   });
+  const [error, setError] = useState("");
+  const [isPending, setIsPending] = useState(false);
   const [email, setEmail] = useState("");
   const [role, setRole] = useState("");
   const sendUserInvitation = useMutation(api.invitations.sendUserInvitation);
   const deleteInvitation = useMutation(api.invitations.deleteInvitation);
   const deleteUser = useMutation(api.users.deleteUser);
   const deleteAuthAccount = useMutation(api.users.deleteAuthAccount);
-  const [error, setError] = useState("");
-  const [isPending, setIsPending] = useState(false);
 
   const handleSubmit = async () => {
     try {
       setIsPending(true);
-      if (!email) {
-        throw new Error("");
+      if (email.trim().length < 2) {
+        throw new Error("Please enter a valid email.");
       }
       if (!role) {
-        throw new Error("");
+        throw new Error("Please choose a role.");
       }
       await sendUserInvitation({
         emails: email.split(","),
@@ -125,13 +125,6 @@ export function DataTable<TData, TValue>({
 
   return (
     <div>
-      {!!error && (
-        <Alert variant="destructive" className="max-w-xl">
-          <AlertCircleIcon className="size-4" />
-          <AlertTitle>Something went wrong!</AlertTitle>
-          <AlertDescription>{error}</AlertDescription>
-        </Alert>
-      )}
       <div className="flex items-center justify-between gap-4 px-4 py-4">
         <Input
           placeholder="Filter name..."
@@ -152,7 +145,15 @@ export function DataTable<TData, TValue>({
               <span>Remove Selected ({Object.keys(rowSelection).length})</span>
             </Button>
           )}
-          <Dialog open={open} onOpenChange={setOpen}>
+          <Dialog
+            open={open}
+            onOpenChange={(open) => {
+              setEmail("");
+              setRole("");
+              setError("");
+              setOpen(open);
+            }}
+          >
             <DialogTrigger asChild>
               <Button>Invite</Button>
             </DialogTrigger>
@@ -164,6 +165,13 @@ export function DataTable<TData, TValue>({
                 </DialogTitle>
               </DialogHeader>
               <div className="grid gap-4 py-4">
+                {!!error && (
+                  <Alert variant="destructive" className="max-w-xl">
+                    <AlertCircleIcon className="size-4" />
+                    <AlertTitle>Something went wrong!</AlertTitle>
+                    <AlertDescription>{error}</AlertDescription>
+                  </Alert>
+                )}
                 <div className="grid gap-4">
                   <Label htmlFor="name">Email</Label>
                   <Input
