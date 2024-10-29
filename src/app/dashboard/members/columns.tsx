@@ -12,6 +12,8 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Badge } from "@/components/ui/badge";
+import { useMutation } from "convex/react";
+import { api } from "@/api";
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
@@ -112,7 +114,7 @@ export const columns: ColumnDef<TableData>[] = [
   {
     id: "actions",
     header: () => <div></div>,
-    cell: ({ row }) => {
+    cell: function Cell({ row }) {
       const resendUserInvitation = useMutation(
         api.invitations.resendUserInvitation
       );
