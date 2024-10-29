@@ -4,6 +4,8 @@ import Heading from "@/components/heading";
 import { Card, CardContent } from "@/components/ui/card";
 import { DataTable } from "./data-table";
 import { columns } from "./columns";
+import { useQuery } from "convex/react";
+import { api } from "@/api";
 
 const data = [
   {
@@ -38,12 +40,15 @@ const data = [
 ];
 
 export default function Page() {
+  // @ts-expect-error - TODO: Incorrect inference should be fixed when we convert to a monorepo.
+  const invitations = useQuery(api.invitations.listInvitations);
+
   return (
     <>
       <Heading variant="h1">Members</Heading>
       <Card className="border-none">
         <CardContent className="p-0">
-          {data && <DataTable columns={columns} data={data} />}
+          {invitations && <DataTable columns={columns} data={invitations} />}
         </CardContent>
       </Card>
     </>

@@ -1,5 +1,4 @@
 import { CheckCircle } from "lucide-react";
-import { notFound } from "next/navigation";
 
 export default function VerifyMember({
   searchParams,
@@ -7,9 +6,8 @@ export default function VerifyMember({
   searchParams: { invitationId?: string };
 }) {
   const invitationId = searchParams.invitationId;
-  if (!invitationId) {
-    return notFound();
-  }
+  console.log(invitationId);
+
   return (
     <div className="flex h-dvh items-center justify-center">
       <div className="space-y-4 text-center">

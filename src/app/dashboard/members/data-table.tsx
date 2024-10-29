@@ -74,9 +74,9 @@ export function DataTable<TData, TValue>({
   const sendUserInvitation = useMutation(api.invitations.sendUserInvitation);
 
   const handleSubmit = async () => {
-    if (validateEmail(email) && role) {
-      sendUserInvitation({
-        email,
+    if (email && role) {
+      await sendUserInvitation({
+        emails: email.split(","),
         role,
       });
       setEmail("");

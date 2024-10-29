@@ -24,7 +24,8 @@ export interface TableData {
   name?: string;
   email: string;
   role: string;
-  status?: string;
+  status: string;
+  userId?: any;
 }
 
 export const columns: ColumnDef<TableData>[] = [
@@ -115,7 +116,15 @@ export const columns: ColumnDef<TableData>[] = [
     id: "actions",
     header: () => <div></div>,
     cell: ({ row }) => {
+      const resendUserInvitation = useMutation(
+        api.invitations.resendUserInvitation
+      );
+      const deleteUserInvitation = useMutation(
+        api.invitations.deleteInvitation
+      );
+      const removeUser = useMutation(api.users.deleteUser);
       const member = row.original;
+
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -127,7 +136,14 @@ export const columns: ColumnDef<TableData>[] = [
           <DropdownMenuContent align="end">
             {member.status !== "pending" ? (
               <DropdownMenuItem
-                onClick={async () => {}}
+                onClick={async () => {
+                  await deleteUserInvitation({
+                    invitationId: member._id,
+                  });
+                  await removeUser({
+                    userId: member.userId,
+                  });
+                }}
                 className="flex cursor-pointer items-center gap-2 text-destructive focus:text-destructive"
               >
                 <Trash2 className="size-4" />
@@ -136,14 +152,23 @@ export const columns: ColumnDef<TableData>[] = [
             ) : (
               <>
                 <DropdownMenuItem
-                  onClick={async () => {}}
+                  onClick={async () => {
+                    await resendUserInvitation({
+                      email: member.email,
+                      role: member.role,
+                    });
+                  }}
                   className="flex cursor-pointer items-center gap-2"
                 >
                   <Send className="size-4" />
                   <span>Resend Invitation Email</span>
                 </DropdownMenuItem>
                 <DropdownMenuItem
-                  onClick={async () => {}}
+                  onClick={async () => {
+                    await deleteUserInvitation({
+                      invitationId: member._id,
+                    });
+                  }}
                   className="flex cursor-pointer items-center gap-2 text-destructive focus:text-destructive"
                 >
                   <Ban className="size-4" />

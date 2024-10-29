@@ -245,6 +245,12 @@ export type PublicApiType = {
       { dob?: number; height?: number; weight?: number },
       any
     >;
+    deleteUser: FunctionReference<
+      "mutation",
+      "public",
+      { userId: Id<"users"> },
+      any
+    >;
   };
   organizations: {
     getOrganizationBySlug: FunctionReference<
@@ -279,10 +285,11 @@ export type PublicApiType = {
       { orgName: string; owner: { email: string; name: string } },
       any
     >;
+    listInvitations: FunctionReference<"query", "public", any, any>;
     sendUserInvitation: FunctionReference<
       "mutation",
       "public",
-      { email: string; role: string },
+      { emails: Array<string>; role: string },
       any
     >;
     resendUserInvitation: FunctionReference<
