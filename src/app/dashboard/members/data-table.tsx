@@ -83,14 +83,23 @@ export function DataTable<TData, TValue>({
   const handleSubmit = async () => {
     try {
       setIsPending(true);
-      if (email.trim().length < 2) {
-        throw new Error("Please enter a valid email.");
-      }
+
       if (!role) {
         throw new Error("Please choose a role.");
       }
+
+      const emails = email.split(",");
+
+      const emailPattern = /^[a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+      emails.forEach((email) => {
+        if (!emailPattern.test(email)) {
+          throw new Error("Please enter a valid email.");
+        }
+      });
+
       await sendUserInvitation({
-        emails: email.split(","),
+        emails: emails,
         role,
       });
       setEmail("");
