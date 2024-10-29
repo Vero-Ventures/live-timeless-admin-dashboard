@@ -26,7 +26,7 @@ import {
 import { useState } from "react";
 import { DataTablePagination } from "../../../components/ui/pagination";
 import { Button } from "@/components/ui/button";
-import { Trash2, UserPlus2 } from "lucide-react";
+import { AlertCircleIcon, Trash2, UserPlus2 } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -40,6 +40,7 @@ import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { useMutation } from "convex/react";
 import { api } from "@/api";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -76,9 +77,18 @@ export function DataTable<TData, TValue>({
   const deleteInvitation = useMutation(api.invitations.deleteInvitation);
   const deleteUser = useMutation(api.users.deleteUser);
   const deleteAuthAccount = useMutation(api.users.deleteAuthAccount);
+  const [error, setError] = useState("");
+  const [isPending, setIsPending] = useState(false);
 
   const handleSubmit = async () => {
-    if (email && role) {
+    try {
+      setIsPending(true);
+      if (!email) {
+        throw new Error("");
+      }
+      if (!role) {
+        throw new Error("");
+      }
       await sendUserInvitation({
         emails: email.split(","),
         role,
@@ -87,6 +97,12 @@ export function DataTable<TData, TValue>({
       setRole("");
       setRowSelection({});
       setOpen(false);
+    } catch (error) {
+      if (error instanceof Error) {
+        setError(error.message);
+      }
+    } finally {
+      setIsPending(false);
     }
   };
 
@@ -109,6 +125,13 @@ export function DataTable<TData, TValue>({
 
   return (
     <div>
+      {!!error && (
+        <Alert variant="destructive" className="max-w-xl">
+          <AlertCircleIcon className="size-4" />
+          <AlertTitle>Something went wrong!</AlertTitle>
+          <AlertDescription>{error}</AlertDescription>
+        </Alert>
+      )}
       <div className="flex items-center justify-between gap-4 px-4 py-4">
         <Input
           placeholder="Filter name..."
@@ -185,8 +208,12 @@ export function DataTable<TData, TValue>({
                 </div>
               </div>
               <DialogFooter>
-                <Button type="submit" onClick={handleSubmit}>
-                  Send Invitation
+                <Button
+                  disabled={isPending}
+                  type="submit"
+                  onClick={handleSubmit}
+                >
+                  {isPending ? "Sending..." : "Send Invitation"}
                 </Button>
               </DialogFooter>
             </DialogContent>
