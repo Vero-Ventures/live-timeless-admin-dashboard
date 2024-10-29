@@ -64,7 +64,7 @@ export function DataTable<TData, TValue>({
   const deleteSelectedRows = async () => {
     const selectedRows = table.getFilteredSelectedRowModel().rows;
     await Promise.all(
-      selectedRows.map(async (row) =>
+      selectedRows.map(async (row: any) =>
         deleteChallenge({ challengeId: row.original._id })
       )
     );
