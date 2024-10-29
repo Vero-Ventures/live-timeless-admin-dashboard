@@ -300,7 +300,7 @@ export type PublicApiType = {
     resendUserInvitation: FunctionReference<
       "mutation",
       "public",
-      { email: string; role: string },
+      { invitationId: Id<"invitations"> },
       any
     >;
     acceptInvitation: FunctionReference<
