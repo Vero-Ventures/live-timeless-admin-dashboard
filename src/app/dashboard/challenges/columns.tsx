@@ -117,7 +117,7 @@ export const columns: ColumnDef<TableData>[] = [
   {
     id: "actions",
     header: () => <div></div>,
-    cell: ({ row }) => {
+    cell: function Cell({ row }) {
       const deleteChallenge = useMutation(api.challenges.deleteChallenge);
       const router = useRouter();
       const challenge = row.original;

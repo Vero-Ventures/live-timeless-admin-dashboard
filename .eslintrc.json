@@ -26,7 +26,8 @@
     "*.md",
     ".vscode",
     "public",
-    "*.toml"
+    "*.toml",
+    "api.ts"
     // Add other file types you want to ignore
   ]
 }
