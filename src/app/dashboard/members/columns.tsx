@@ -121,7 +121,8 @@ export const columns: ColumnDef<TableData>[] = [
       const deleteUserInvitation = useMutation(
         api.invitations.deleteInvitation
       );
-      const removeUser = useMutation(api.users.deleteUser);
+      const deleteAuthAccount = useMutation(api.users.deleteAuthAccount);
+      const deleteUser = useMutation(api.users.deleteUser);
       const member = row.original;
 
       return (
@@ -136,11 +137,14 @@ export const columns: ColumnDef<TableData>[] = [
             {member.status !== "pending" ? (
               <DropdownMenuItem
                 onClick={async () => {
+                  await deleteUser({
+                    userId: member.userId,
+                  });
+                  await deleteAuthAccount({
+                    userId: member.userId,
+                  });
                   await deleteUserInvitation({
                     invitationId: member._id,
-                  });
-                  await removeUser({
-                    userId: member.userId,
                   });
                 }}
                 className="flex cursor-pointer items-center gap-2 text-destructive focus:text-destructive"
