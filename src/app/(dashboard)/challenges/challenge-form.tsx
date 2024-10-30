@@ -88,7 +88,7 @@ export default function ChallengeForm({
       startDate: values.duration.from.getTime(),
       endDate: values.duration.to.getTime(),
     });
-    router.replace("/dashboard/challenges");
+    router.replace("/challenges");
   }
 
   return (

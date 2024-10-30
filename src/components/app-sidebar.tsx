@@ -1,5 +1,5 @@
 "use client";
-import { Home, Target, Users2 } from "lucide-react";
+import { Target, Users2 } from "lucide-react";
 
 import {
   Sidebar,
@@ -19,19 +19,14 @@ import { usePathname } from "next/navigation";
 
 const items = [
   {
-    title: "Home",
-    url: "/dashboard/home",
-    icon: Home,
+    title: "Members",
+    url: "/members",
+    icon: Users2,
   },
   {
     title: "Challenges",
-    url: "/dashboard/challenges",
+    url: "/challenges",
     icon: Target,
-  },
-  {
-    title: "Members",
-    url: "/dashboard/members",
-    icon: Users2,
   },
 ];
 
@@ -40,10 +35,7 @@ export function AppSidebar() {
   return (
     <Sidebar className="group-data-[side=left]:border-r-0">
       <SidebarHeader>
-        <Link
-          href="/dashboard/home"
-          className="relative mx-auto my-4 h-[36px] w-[151px]"
-        >
+        <Link href="/home" className="relative mx-auto my-4 h-[36px] w-[151px]">
           <Image
             src="/logo.svg"
             alt="Logo"
