@@ -92,6 +92,12 @@ export type PublicApiType = {
       Record<string, never>,
       any
     >;
+    deleteAuthAccount: FunctionReference<
+      "mutation",
+      "public",
+      { userId: Id<"users"> },
+      any
+    >;
     updateProfile: FunctionReference<
       "mutation",
       "public",
@@ -102,6 +108,24 @@ export type PublicApiType = {
         name: string;
         weight?: number;
       },
+      any
+    >;
+    updateUserName: FunctionReference<
+      "mutation",
+      "public",
+      { name: string },
+      any
+    >;
+    updatePartialProfile: FunctionReference<
+      "mutation",
+      "public",
+      { dob?: number; height?: number; weight?: number },
+      any
+    >;
+    deleteUser: FunctionReference<
+      "mutation",
+      "public",
+      { userId: Id<"users"> },
       any
     >;
   };
@@ -229,11 +253,7 @@ export type PublicApiType = {
     removeFromChallenge: FunctionReference<
       "mutation",
       "public",
-      {
-        challengeId: Id<"challenges">;
-        organizationId: Id<"organizations">;
-        userId: Id<"users">;
-      },
+      { challengeId: Id<"challenges">; userId: Id<"users"> },
       any
     >;
   };
@@ -270,26 +290,17 @@ export type PublicApiType = {
       { orgName: string; owner: { email: string; name: string } },
       any
     >;
+    listInvitations: FunctionReference<"query", "public", any, any>;
     sendUserInvitation: FunctionReference<
       "mutation",
       "public",
-      {
-        email: string;
-        expiresAt: number;
-        organizationId: Id<"organizations">;
-        role: string;
-      },
+      { emails: Array<string>; role: string },
       any
     >;
     resendUserInvitation: FunctionReference<
       "mutation",
       "public",
-      {
-        email: string;
-        expiresAt: number;
-        organizationId: Id<"organizations">;
-        role: string;
-      },
+      { invitationId: Id<"invitations"> },
       any
     >;
     acceptInvitation: FunctionReference<
@@ -298,12 +309,10 @@ export type PublicApiType = {
       { invitationId: Id<"invitations"> },
       any
     >;
-  };
-  members: {
-    updateMemberRole: FunctionReference<
+    deleteInvitation: FunctionReference<
       "mutation",
       "public",
-      { memberId: Id<"members">; role: string },
+      { invitationId: Id<"invitations"> },
       any
     >;
   };
