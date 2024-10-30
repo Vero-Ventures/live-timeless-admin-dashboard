@@ -20,12 +20,12 @@ import { usePathname } from "next/navigation";
 const items = [
   {
     title: "Members",
-    url: "/members",
+    url: "/dashboard/members",
     icon: Users2,
   },
   {
     title: "Challenges",
-    url: "/challenges",
+    url: "/dashboard/challenges",
     icon: Target,
   },
 ];
