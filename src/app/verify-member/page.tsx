@@ -2,12 +2,11 @@ import { CheckCircle } from "lucide-react";
 import { acceptInvitation } from "./actions";
 import { notFound } from "next/navigation";
 
-export default async function VerifyMember(
-  props: {
-    searchParams: Promise<{ invitationId?: string }>;
-  }
-) {
-  const searchParams = await props.searchParams;
+export default async function VerifyMember({
+  searchParams,
+}: {
+  searchParams: { invitationId?: string };
+}) {
   const invitationId = searchParams.invitationId;
 
   try {
