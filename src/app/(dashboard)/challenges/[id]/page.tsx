@@ -36,7 +36,7 @@ export default function SingleChallengePage() {
     <>
       <div className="mb-8 flex gap-4">
         <Button asChild variant="ghost">
-          <Link href="/dashboard/challenges">
+          <Link href="/challenges">
             <ChevronLeft />
           </Link>
         </Button>

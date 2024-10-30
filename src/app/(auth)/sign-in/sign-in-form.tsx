@@ -58,7 +58,7 @@ export function SignInForm() {
               event.preventDefault();
               const formData = new FormData(event.currentTarget);
               await signIn("resend-otp", formData);
-              router.push("/dashboard/members");
+              router.push("/members");
             }}
             className="grid gap-4"
           >
