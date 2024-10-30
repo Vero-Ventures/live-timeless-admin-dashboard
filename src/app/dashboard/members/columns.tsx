@@ -137,15 +137,17 @@ export const columns: ColumnDef<TableData>[] = [
             {member.status !== "pending" ? (
               <DropdownMenuItem
                 onClick={async () => {
-                  await deleteUser({
-                    userId: member.userId,
-                  });
-                  await deleteAuthAccount({
-                    userId: member.userId,
-                  });
-                  await deleteUserInvitation({
-                    invitationId: member._id,
-                  });
+                  await Promise.all([
+                    deleteUserInvitation({
+                      invitationId: member._id,
+                    }),
+                    deleteAuthAccount({
+                      userId: member.userId,
+                    }),
+                    deleteUser({
+                      userId: member.userId,
+                    }),
+                  ]);
                 }}
                 className="flex cursor-pointer items-center gap-2 text-destructive focus:text-destructive"
               >
@@ -156,10 +158,7 @@ export const columns: ColumnDef<TableData>[] = [
               <>
                 <DropdownMenuItem
                   onClick={async () => {
-                    await resendUserInvitation({
-                      email: member.email,
-                      role: member.role,
-                    });
+                    await resendUserInvitation({ invitationId: member._id });
                   }}
                   className="flex cursor-pointer items-center gap-2"
                 >

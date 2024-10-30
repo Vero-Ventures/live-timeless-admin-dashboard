@@ -12,8 +12,14 @@ export default async function VerifyMember({
   if (!invitationId) {
     return notFound();
   }
-
-  await acceptInvitation(invitationId);
+  try {
+    await acceptInvitation(invitationId);
+  } catch (err) {
+    if (err instanceof Error) {
+      console.log(err.message);
+      notFound();
+    }
+  }
 
   return (
     <div className="flex h-dvh items-center justify-center">
