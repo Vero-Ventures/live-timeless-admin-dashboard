@@ -1,26 +1,15 @@
 import { CheckCircle } from "lucide-react";
-import { acceptInvitation } from "./actions";
 import { notFound } from "next/navigation";
 
-export default async function VerifyMember({
+export default function VerifyMember({
   searchParams,
 }: {
   searchParams: { invitationId?: string };
 }) {
   const invitationId = searchParams.invitationId;
-
-  try {
-    if (!invitationId) {
-      throw new Error("No InvitationId");
-    }
-    await acceptInvitation(invitationId);
-  } catch (err) {
-    if (err instanceof Error) {
-      console.log(err.message);
-      notFound();
-    }
+  if (!invitationId) {
+    return notFound();
   }
-
   return (
     <div className="flex h-dvh items-center justify-center">
       <div className="space-y-4 text-center">

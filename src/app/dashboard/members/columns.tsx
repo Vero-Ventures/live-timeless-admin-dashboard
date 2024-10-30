@@ -12,8 +12,6 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Badge } from "@/components/ui/badge";
-import { useMutation } from "convex/react";
-import { api } from "@/api";
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
@@ -23,8 +21,7 @@ export interface TableData {
   name?: string;
   email: string;
   role: string;
-  status: string;
-  userId?: any;
+  status?: string;
 }
 
 export const columns: ColumnDef<TableData>[] = [
@@ -114,17 +111,8 @@ export const columns: ColumnDef<TableData>[] = [
   {
     id: "actions",
     header: () => <div></div>,
-    cell: function Cell({ row }) {
-      const resendUserInvitation = useMutation(
-        api.invitations.resendUserInvitation
-      );
-      const deleteUserInvitation = useMutation(
-        api.invitations.deleteInvitation
-      );
-      const deleteAuthAccount = useMutation(api.users.deleteAuthAccount);
-      const deleteUser = useMutation(api.users.deleteUser);
+    cell: ({ row }) => {
       const member = row.original;
-
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -136,19 +124,7 @@ export const columns: ColumnDef<TableData>[] = [
           <DropdownMenuContent align="end">
             {member.status !== "pending" ? (
               <DropdownMenuItem
-                onClick={async () => {
-                  await Promise.all([
-                    deleteUserInvitation({
-                      invitationId: member._id,
-                    }),
-                    deleteAuthAccount({
-                      userId: member.userId,
-                    }),
-                    deleteUser({
-                      userId: member.userId,
-                    }),
-                  ]);
-                }}
+                onClick={async () => {}}
                 className="flex cursor-pointer items-center gap-2 text-destructive focus:text-destructive"
               >
                 <Trash2 className="size-4" />
@@ -157,20 +133,14 @@ export const columns: ColumnDef<TableData>[] = [
             ) : (
               <>
                 <DropdownMenuItem
-                  onClick={async () => {
-                    await resendUserInvitation({ invitationId: member._id });
-                  }}
+                  onClick={async () => {}}
                   className="flex cursor-pointer items-center gap-2"
                 >
                   <Send className="size-4" />
                   <span>Resend Invitation Email</span>
                 </DropdownMenuItem>
                 <DropdownMenuItem
-                  onClick={async () => {
-                    await deleteUserInvitation({
-                      invitationId: member._id,
-                    });
-                  }}
+                  onClick={async () => {}}
                   className="flex cursor-pointer items-center gap-2 text-destructive focus:text-destructive"
                 >
                   <Ban className="size-4" />

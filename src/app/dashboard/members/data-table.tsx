@@ -26,7 +26,7 @@ import {
 import { useState } from "react";
 import { DataTablePagination } from "../../../components/ui/pagination";
 import { Button } from "@/components/ui/button";
-import { AlertCircleIcon, Trash2, UserPlus2 } from "lucide-react";
+import { Trash2, UserPlus2 } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -38,9 +38,6 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { useMutation } from "convex/react";
-import { api } from "@/api";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -51,7 +48,6 @@ export function DataTable<TData, TValue>({
   columns,
   data,
 }: DataTableProps<TData, TValue>) {
-  const [open, setOpen] = useState(false);
   const [sorting, setSorting] = useState<SortingState>([]);
   const [rowSelection, setRowSelection] = useState({});
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
@@ -71,64 +67,9 @@ export function DataTable<TData, TValue>({
       columnFilters,
     },
   });
-  const [error, setError] = useState("");
-  const [isPending, setIsPending] = useState(false);
-  const [email, setEmail] = useState("");
-  const [role, setRole] = useState("");
-  const sendUserInvitation = useMutation(api.invitations.sendUserInvitation);
-  const deleteInvitation = useMutation(api.invitations.deleteInvitation);
-  const deleteUser = useMutation(api.users.deleteUser);
-  const deleteAuthAccount = useMutation(api.users.deleteAuthAccount);
-
-  const handleSubmit = async () => {
-    try {
-      setIsPending(true);
-
-      if (!role) {
-        throw new Error("Please choose a role.");
-      }
-
-      const emails = email.split(",");
-
-      const emailPattern = /^[a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-
-      emails.forEach((email) => {
-        if (!emailPattern.test(email)) {
-          throw new Error("Please enter a valid email.");
-        }
-      });
-
-      await sendUserInvitation({
-        emails: emails,
-        role,
-      });
-      setEmail("");
-      setRole("");
-      setRowSelection({});
-      setOpen(false);
-    } catch (error) {
-      if (error instanceof Error) {
-        setError(error.message);
-      }
-    } finally {
-      setIsPending(false);
-    }
-  };
-
   const deleteSelectedRows = async () => {
     const selectedRows = table.getFilteredSelectedRowModel().rows;
-
-    await Promise.all(
-      selectedRows.map(async (row: any) => {
-        const member = row.original;
-        if (member.status !== "pending") {
-          await deleteUser({ userId: member.userId });
-          await deleteAuthAccount({ userId: member.userId });
-        }
-        await deleteInvitation(member._id);
-      })
-    );
-
+    console.log(selectedRows);
     setRowSelection({});
   };
 
@@ -154,15 +95,7 @@ export function DataTable<TData, TValue>({
               <span>Remove Selected ({Object.keys(rowSelection).length})</span>
             </Button>
           )}
-          <Dialog
-            open={open}
-            onOpenChange={(open) => {
-              setEmail("");
-              setRole("");
-              setError("");
-              setOpen(open);
-            }}
-          >
+          <Dialog>
             <DialogTrigger asChild>
               <Button>Invite</Button>
             </DialogTrigger>
@@ -174,13 +107,6 @@ export function DataTable<TData, TValue>({
                 </DialogTitle>
               </DialogHeader>
               <div className="grid gap-4 py-4">
-                {!!error && (
-                  <Alert variant="destructive" className="max-w-xl">
-                    <AlertCircleIcon className="size-4" />
-                    <AlertTitle>Something went wrong!</AlertTitle>
-                    <AlertDescription>{error}</AlertDescription>
-                  </Alert>
-                )}
                 <div className="grid gap-4">
                   <Label htmlFor="name">Email</Label>
                   <Input
@@ -188,9 +114,6 @@ export function DataTable<TData, TValue>({
                     type="email"
                     placeholder="collaborator@example.com"
                     className="col-span-3"
-                    multiple
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
                   />
                   <p className="text-sm">
                     Separate multiple emails with a comma.
@@ -198,12 +121,7 @@ export function DataTable<TData, TValue>({
                 </div>
                 <div className="grid gap-4">
                   <Label htmlFor="name">Role</Label>
-                  <RadioGroup
-                    defaultValue="comfortable"
-                    className="space-y-4"
-                    value={role}
-                    onValueChange={(role) => setRole(role)}
-                  >
+                  <RadioGroup defaultValue="comfortable" className="space-y-4">
                     <div className="flex items-start space-x-2">
                       <RadioGroupItem value="admin" id="admin" />
                       <Label className="text-sm" htmlFor="admin">
@@ -225,13 +143,7 @@ export function DataTable<TData, TValue>({
                 </div>
               </div>
               <DialogFooter>
-                <Button
-                  disabled={isPending}
-                  type="submit"
-                  onClick={handleSubmit}
-                >
-                  {isPending ? "Sending..." : "Send Invitation"}
-                </Button>
+                <Button type="submit">Send Invitation</Button>
               </DialogFooter>
             </DialogContent>
           </Dialog>
