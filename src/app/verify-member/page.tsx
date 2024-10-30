@@ -9,10 +9,10 @@ export default async function VerifyMember({
 }) {
   const invitationId = searchParams.invitationId;
 
-  if (!invitationId) {
-    return notFound();
-  }
   try {
+    if (!invitationId) {
+      throw new Error("No InvitationId");
+    }
     await acceptInvitation(invitationId);
   } catch (err) {
     if (err instanceof Error) {
