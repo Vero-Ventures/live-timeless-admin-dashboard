@@ -132,7 +132,7 @@ export const columns: ColumnDef<TableData>[] = [
           <DropdownMenuContent align="end">
             <DropdownMenuItem
               onClick={() => {
-                router.push(`/challenges/${challenge._id}`);
+                router.push(`/dashboard/challenges/${challenge._id}`);
               }}
               className="flex items-center gap-2"
             >
@@ -141,7 +141,7 @@ export const columns: ColumnDef<TableData>[] = [
             </DropdownMenuItem>
             <DropdownMenuItem
               onClick={() => {
-                router.push(`/challenges/${challenge._id}/edit`);
+                router.push(`/dashboard/challenges/${challenge._id}/edit`);
               }}
               className="flex items-center gap-2"
             >

@@ -94,7 +94,7 @@ export function DataTable<TData, TValue>({
             </Button>
           )}
           <Button asChild>
-            <Link href="/challenges/create">New Challenge</Link>
+            <Link href="/dashboard/challenges/create">New Challenge</Link>
           </Button>
         </div>
       </div>
