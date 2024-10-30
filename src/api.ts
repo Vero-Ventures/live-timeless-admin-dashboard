@@ -128,12 +128,6 @@ export type PublicApiType = {
       { userId: Id<"users"> },
       any
     >;
-    checkUserEmail: FunctionReference<
-      "mutation",
-      "public",
-      { email: string },
-      any
-    >;
   };
   goalLogs: {
     getGoalLogById: FunctionReference<
