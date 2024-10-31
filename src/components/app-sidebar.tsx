@@ -1,5 +1,5 @@
 "use client";
-import { Home, Target, Users2 } from "lucide-react";
+import { Building2Icon, HomeIcon, TargetIcon, Users2Icon } from "lucide-react";
 
 import {
   Sidebar,
@@ -16,26 +16,29 @@ import Link from "next/link";
 import Image from "next/image";
 import UserNav from "./user-nav";
 import { usePathname } from "next/navigation";
+import { api } from "@/api";
+import { useQuery } from "convex/react";
 
 const items = [
   {
     title: "Home",
     url: "/dashboard/home",
-    icon: Home,
+    icon: HomeIcon,
   },
   {
     title: "Challenges",
     url: "/dashboard/challenges",
-    icon: Target,
+    icon: TargetIcon,
   },
   {
     title: "Members",
     url: "/dashboard/members",
-    icon: Users2,
+    icon: Users2Icon,
   },
 ];
 
 export function AppSidebar() {
+  const user = useQuery(api.users.currentUser);
   const pathname = usePathname();
   return (
     <Sidebar className="group-data-[side=left]:border-r-0">
@@ -54,6 +57,14 @@ export function AppSidebar() {
             quality={100}
           />
         </Link>
+        {user && (
+          <div className="flex items-center gap-2 p-4">
+            <div className="rounded-lg bg-primary p-1 text-center">
+              <Building2Icon />
+            </div>
+            <span className="font-semibold">{user.organization.name}</span>
+          </div>
+        )}
       </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>

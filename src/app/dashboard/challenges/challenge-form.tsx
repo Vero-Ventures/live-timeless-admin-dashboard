@@ -249,6 +249,8 @@ export default function ChallengeForm({
               <FormLabel>Repeat</FormLabel>
               <FormControl>
                 <MultiSelect
+                  asChild
+                  type="button"
                   options={REPEATS.map((opt) => ({
                     value: opt,
                     label: opt,
