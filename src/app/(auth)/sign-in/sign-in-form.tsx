@@ -14,11 +14,19 @@ import {
   InputOTPSlot,
 } from "@/components/ui/input-otp";
 import { useRouter } from "next/navigation";
+import { useMutation } from "convex/react";
+import { api } from "@/api";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { AlertCircleIcon } from "lucide-react";
 
 export function SignInForm() {
   const router = useRouter();
   const { signIn } = useAuthActions();
   const [step, setStep] = useState<"signIn" | { email: string }>("signIn");
+  const [error, setError] = useState("");
+  const checkUserEmail = useMutation(api.users.checkUserEmail);
+  const [isPending, setIsPending] = useState(false);
+
   return (
     <Card className="mx-auto w-full max-w-md border-none">
       <CardHeader>
@@ -27,14 +35,38 @@ export function SignInForm() {
         </CardTitle>
       </CardHeader>
       <CardContent>
+        {!!error && (
+          <Alert variant="destructive" className="mb-4 max-w-xl">
+            <AlertCircleIcon />
+            <AlertTitle>Something went wrong!</AlertTitle>
+            <AlertDescription>{error}</AlertDescription>
+          </Alert>
+        )}
         {step === "signIn" ? (
           <form
-            onSubmit={(e) => {
-              e.preventDefault();
-              const formData = new FormData(e.currentTarget);
-              void signIn("resend-otp", formData).then(() =>
-                setStep({ email: formData.get("email") as string })
-              );
+            onSubmit={async (e) => {
+              try {
+                e.preventDefault();
+                const formData = new FormData(e.currentTarget);
+                const email = formData.get("email") as string;
+                setError("");
+                setIsPending(true);
+                const user = await checkUserEmail({ email });
+                if (!user) {
+                  throw new Error(
+                    "This email isn't registered on our platform. Please accept your email invitation to proceed."
+                  );
+                }
+                await signIn("resend-otp", { email });
+                setStep({ email });
+              } catch (error) {
+                if (error instanceof Error) {
+                  console.log(error);
+                  setError(error.message);
+                }
+              } finally {
+                setIsPending(false);
+              }
             }}
             className="grid gap-4"
           >
@@ -48,8 +80,13 @@ export function SignInForm() {
                 required
               />
             </div>
-            <Button type="submit" size="lg" className="w-full font-semibold">
-              Sign In
+            <Button
+              disabled={isPending}
+              type="submit"
+              size="lg"
+              className="w-full font-semibold"
+            >
+              {isPending ? "Signing in..." : "Sign In"}
             </Button>
           </form>
         ) : (
