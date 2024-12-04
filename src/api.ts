@@ -5,76 +5,82 @@ export const api: PublicApiType = anyApi as unknown as PublicApiType;
 export const internal: InternalApiType = anyApi as unknown as InternalApiType;
 
 export type PublicApiType = {
-  habitStats: {
-    fetchHabitStats: FunctionReference<
-      "query",
-      "public",
-      { goalId?: Id<"goals"> },
-      any
-    >;
-  };
-  invitations: {
-    sendOwnerInvitation: FunctionReference<
-      "mutation",
-      "public",
-      { orgName: string; owner: { email: string; name: string } },
-      any
-    >;
-    listInvitations: FunctionReference<"query", "public", any, any>;
-    sendUserInvitation: FunctionReference<
-      "mutation",
-      "public",
-      { emails: Array<string>; role: string },
-      any
-    >;
-    resendUserInvitation: FunctionReference<
-      "mutation",
-      "public",
-      { invitationId: Id<"invitations"> },
-      any
-    >;
-    acceptInvitation: FunctionReference<
-      "mutation",
-      "public",
-      { invitationId: Id<"invitations"> },
-      any
-    >;
-    deleteInvitation: FunctionReference<
-      "mutation",
-      "public",
-      { invitationId: Id<"invitations"> },
-      any
-    >;
-  };
-  organizations: {
-    getOrganizationBySlug: FunctionReference<
-      "query",
-      "public",
-      { slug: string },
-      any
-    >;
-    updateOrganization: FunctionReference<
-      "mutation",
+  auth: {
+    signIn: FunctionReference<
+      "action",
       "public",
       {
-        logo?: string;
-        metadata?: string;
-        name: string;
-        organizationId: Id<"organizations">;
-        slug: string;
+        params?: any;
+        provider?: string;
+        refreshToken?: string;
+        verifier?: string;
       },
       any
     >;
-    deleteOrganization: FunctionReference<
-      "mutation",
+    signOut: FunctionReference<"action", "public", Record<string, never>, any>;
+  };
+  goals: {
+    getGoalById: FunctionReference<
+      "query",
       "public",
-      { organizationId: Id<"organizations"> },
+      { goalId: Id<"goals"> },
       any
     >;
-  };
-  singleHabitStats: {
-    fetchSingleHabitStats: FunctionReference<
-      "query",
+    listGoals: FunctionReference<"query", "public", any, any>;
+    createGoal: FunctionReference<
+      "mutation",
+      "public",
+      {
+        challengeId?: Id<"challenges">;
+        dailyRepeat: Array<string>;
+        intervalRepeat: number;
+        monthlyRepeat: Array<number>;
+        name: string;
+        rate?: number;
+        recurrence: string;
+        repeatType: string;
+        selectedIcon: string;
+        selectedIconColor: string;
+        startDate: number;
+        timeOfDay: Array<string>;
+        timeReminder: number;
+        unit: string;
+        unitType: string;
+        unitValue: number;
+      },
+      any
+    >;
+    updateGoal: FunctionReference<
+      "mutation",
+      "public",
+      {
+        dailyRepeat: Array<string>;
+        goalId: Id<"goals">;
+        intervalRepeat: number;
+        monthlyRepeat: Array<number>;
+        name: string;
+        rate?: number;
+        recurrence: string;
+        repeatType: string;
+        selectedIcon: string;
+        selectedIconColor: string;
+        startDate: number;
+        timeOfDay: Array<string>;
+        timeReminder: number;
+        unit: string;
+        unitType: string;
+        unitValue: number;
+      },
+      any
+    >;
+    deleteGoal: FunctionReference<
+      "mutation",
+      "public",
+      { goalId: Id<"goals"> },
+      any
+    >;
+    deleteGoalAndGoalLogs: FunctionReference<
+      "mutation",
       "public",
       { goalId: Id<"goals"> },
       any
@@ -130,19 +136,56 @@ export type PublicApiType = {
       any
     >;
   };
-  auth: {
-    signIn: FunctionReference<
-      "action",
+  goalLogs: {
+    getGoalLogById: FunctionReference<
+      "query",
+      "public",
+      { goalLogId: Id<"goalLogs"> },
+      any
+    >;
+    getGoalLogsbyGoalId: FunctionReference<
+      "query",
+      "public",
+      { goalId: Id<"goals"> },
+      any
+    >;
+    listGoalLogs: FunctionReference<"query", "public", any, any>;
+    createGoalLog: FunctionReference<
+      "mutation",
       "public",
       {
-        params?: any;
-        provider?: string;
-        refreshToken?: string;
-        verifier?: string;
+        date: number;
+        goalId: Id<"goals">;
+        isComplete: boolean;
+        unitsCompleted: number;
       },
       any
     >;
-    signOut: FunctionReference<"action", "public", Record<string, never>, any>;
+    updateGoalLog: FunctionReference<
+      "mutation",
+      "public",
+      {
+        date?: number;
+        goalId?: Id<"goals">;
+        goalLogId: Id<"goalLogs">;
+        isComplete?: boolean;
+        targetDate?: number;
+        unitsCompleted?: number;
+      },
+      any
+    >;
+    deleteGoalLog: FunctionReference<
+      "mutation",
+      "public",
+      { goalLogId: Id<"goalLogs"> },
+      any
+    >;
+    getGoalLogByDate: FunctionReference<
+      "query",
+      "public",
+      { date: number; goalId: Id<"goals"> },
+      any
+    >;
   };
   challenges: {
     getChallengeByIdWthHasJoined: FunctionReference<
@@ -165,6 +208,7 @@ export type PublicApiType = {
         description: string;
         endDate: number;
         name: string;
+        points: number;
         recurrence: string;
         repeat: Array<string>;
         startDate: number;
@@ -221,74 +265,111 @@ export type PublicApiType = {
       { challengeId: Id<"challenges">; userId: Id<"users"> },
       any
     >;
-  };
-  goalLogs: {
-    getGoalLogById: FunctionReference<
+    getChallengeParticipants: FunctionReference<
       "query",
       "public",
-      { goalLogId: Id<"goalLogs"> },
+      { challengeId: Id<"challenges"> },
       any
     >;
-    getGoalLogsbyGoalId: FunctionReference<
+    sortParticipantsByPoints: FunctionReference<
       "query",
       "public",
-      { goalId: Id<"goals"> },
+      { userIds: Array<Id<"users">> },
       any
     >;
-    listGoalLogs: FunctionReference<"query", "public", any, any>;
-    createGoalLog: FunctionReference<
+    updatePoints: FunctionReference<
       "mutation",
       "public",
-      {
-        date: number;
-        goalId: Id<"goals">;
-        isComplete: boolean;
-        unitsCompleted: number;
-      },
-      any
-    >;
-    updateGoalLog: FunctionReference<
-      "mutation",
-      "public",
-      {
-        date?: number;
-        goalId?: Id<"goals">;
-        goalLogId: Id<"goalLogs">;
-        isComplete?: boolean;
-        targetDate?: number;
-        unitsCompleted?: number;
-      },
-      any
-    >;
-    deleteGoalLog: FunctionReference<
-      "mutation",
-      "public",
-      { goalLogId: Id<"goalLogs"> },
-      any
-    >;
-    createGoalLogsFromGoal: FunctionReference<
-      "mutation",
-      "public",
-      { goalId: Id<"goals"> },
+      { rate: number; unitsCompleted: number },
       any
     >;
   };
-  goals: {
-    getGoalById: FunctionReference<
+  organizations: {
+    getOrganizationBySlug: FunctionReference<
+      "query",
+      "public",
+      { slug: string },
+      any
+    >;
+    updateOrganization: FunctionReference<
+      "mutation",
+      "public",
+      {
+        logo?: string;
+        metadata?: string;
+        name: string;
+        organizationId: Id<"organizations">;
+        slug: string;
+      },
+      any
+    >;
+    deleteOrganization: FunctionReference<
+      "mutation",
+      "public",
+      { organizationId: Id<"organizations"> },
+      any
+    >;
+  };
+  invitations: {
+    sendOwnerInvitation: FunctionReference<
+      "mutation",
+      "public",
+      { orgName: string; owner: { email: string; name: string } },
+      any
+    >;
+    listInvitations: FunctionReference<"query", "public", any, any>;
+    sendUserInvitation: FunctionReference<
+      "mutation",
+      "public",
+      { emails: Array<string>; role: string },
+      any
+    >;
+    resendUserInvitation: FunctionReference<
+      "mutation",
+      "public",
+      { invitationId: Id<"invitations"> },
+      any
+    >;
+    acceptInvitation: FunctionReference<
+      "mutation",
+      "public",
+      { invitationId: Id<"invitations"> },
+      any
+    >;
+    deleteInvitation: FunctionReference<
+      "mutation",
+      "public",
+      { invitationId: Id<"invitations"> },
+      any
+    >;
+  };
+  habitStats: {
+    fetchHabitStats: FunctionReference<
+      "query",
+      "public",
+      { goalId?: Id<"goals"> },
+      any
+    >;
+  };
+  singleHabitStats: {
+    fetchSingleHabitStats: FunctionReference<
       "query",
       "public",
       { goalId: Id<"goals"> },
       any
     >;
-    listGoals: FunctionReference<"query", "public", any, any>;
-    createGoal: FunctionReference<
+  };
+  challengeGoals: {
+    createChallengeGoal: FunctionReference<
       "mutation",
       "public",
       {
+        challengeId: Id<"challenges">;
         dailyRepeat: Array<string>;
         intervalRepeat: number;
         monthlyRepeat: Array<number>;
         name: string;
+        rate: number;
         recurrence: string;
         repeatType: string;
         selectedIcon: string;
@@ -299,43 +380,14 @@ export type PublicApiType = {
         unit: string;
         unitType: string;
         unitValue: number;
-        weeks: number;
       },
       any
     >;
-    updateGoal: FunctionReference<
-      "mutation",
+    listChallengeGoals: FunctionReference<"query", "public", any, any>;
+    listChallengeGoalsById: FunctionReference<
+      "query",
       "public",
-      {
-        dailyRepeat: Array<string>;
-        goalId: Id<"goals">;
-        intervalRepeat: number;
-        monthlyRepeat: Array<number>;
-        name: string;
-        recurrence: string;
-        repeatType: string;
-        selectedIcon: string;
-        selectedIconColor: string;
-        startDate: number;
-        timeOfDay: Array<string>;
-        timeReminder: number;
-        unit: string;
-        unitType: string;
-        unitValue: number;
-        weeks: number;
-      },
-      any
-    >;
-    deleteGoal: FunctionReference<
-      "mutation",
-      "public",
-      { goalId: Id<"goals"> },
-      any
-    >;
-    deleteGoalAndGoalLogs: FunctionReference<
-      "mutation",
-      "public",
-      { goalId: Id<"goals"> },
+      { goalId: Id<"challenges"> },
       any
     >;
   };
