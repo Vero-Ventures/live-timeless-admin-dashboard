@@ -52,6 +52,7 @@ export default function ChallengeForm({
       from: new Date(),
       to: addDays(new Date(), 30),
     },
+    points: 0,
   },
   challengeFunctionReference,
 }: ChallengeFormProps) {
@@ -87,6 +88,7 @@ export default function ChallengeForm({
       recurrence: values.recurrence,
       startDate: values.duration.from.getTime(),
       endDate: values.duration.to.getTime(),
+      points: values.points,
     });
     router.replace("/dashboard/challenges");
   }
@@ -277,6 +279,19 @@ export default function ChallengeForm({
                   date={field.value}
                   setDate={field.onChange}
                 />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="points"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Points</FormLabel>
+              <FormControl>
+                <Input placeholder="" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
