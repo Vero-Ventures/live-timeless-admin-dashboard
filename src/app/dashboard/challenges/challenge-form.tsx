@@ -52,7 +52,7 @@ export default function ChallengeForm({
       from: new Date(),
       to: addDays(new Date(), 30),
     },
-    points: 0,
+    tokens: 0,
   },
   challengeFunctionReference,
 }: ChallengeFormProps) {
@@ -88,7 +88,7 @@ export default function ChallengeForm({
       recurrence: values.recurrence,
       startDate: values.duration.from.getTime(),
       endDate: values.duration.to.getTime(),
-      points: values.points,
+      tokens: values.tokens,
     });
     router.replace("/dashboard/challenges");
   }
@@ -286,12 +286,12 @@ export default function ChallengeForm({
         />
         <FormField
           control={form.control}
-          name="points"
+          name="tokens"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Points</FormLabel>
+              <FormLabel>Tokens</FormLabel>
               <FormControl>
-                <Input placeholder="" {...field} />
+                <Input type="number" placeholder="" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>

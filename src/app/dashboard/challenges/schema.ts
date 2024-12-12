@@ -13,9 +13,9 @@ export const challengeFormSchema = z.object({
   unitValue: z.coerce.number(),
   unit: z.string(),
   recurrence: z.enum(RECURRENCE),
-  points: z.coerce
+  tokens: z.coerce
     .number()
-    .min(0, "Please enter a point value to award your employees with."),
+    .min(0, "Please enter a token value to award your employees with."),
 });
 
 export type ChallengeFormSchema = z.infer<typeof challengeFormSchema>;
