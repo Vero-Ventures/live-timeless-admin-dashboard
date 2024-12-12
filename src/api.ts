@@ -5,84 +5,62 @@ export const api: PublicApiType = anyApi as unknown as PublicApiType;
 export const internal: InternalApiType = anyApi as unknown as InternalApiType;
 
 export type PublicApiType = {
-  auth: {
-    signIn: FunctionReference<
-      "action",
+  invitations: {
+    sendOwnerInvitation: FunctionReference<
+      "mutation",
       "public",
-      {
-        params?: any;
-        provider?: string;
-        refreshToken?: string;
-        verifier?: string;
-      },
+      { orgName: string; owner: { email: string; name: string } },
       any
     >;
-    signOut: FunctionReference<"action", "public", Record<string, never>, any>;
+    listInvitations: FunctionReference<"query", "public", any, any>;
+    sendUserInvitation: FunctionReference<
+      "mutation",
+      "public",
+      { emails: Array<string>; role: string },
+      any
+    >;
+    resendUserInvitation: FunctionReference<
+      "mutation",
+      "public",
+      { invitationId: Id<"invitations"> },
+      any
+    >;
+    acceptInvitation: FunctionReference<
+      "mutation",
+      "public",
+      { invitationId: Id<"invitations"> },
+      any
+    >;
+    deleteInvitation: FunctionReference<
+      "mutation",
+      "public",
+      { invitationId: Id<"invitations"> },
+      any
+    >;
   };
-  goals: {
-    getGoalById: FunctionReference<
+  organizations: {
+    getOrganizationBySlug: FunctionReference<
       "query",
       "public",
-      { goalId: Id<"goals"> },
+      { slug: string },
       any
     >;
-    listGoals: FunctionReference<"query", "public", any, any>;
-    createGoal: FunctionReference<
+    updateOrganization: FunctionReference<
       "mutation",
       "public",
       {
-        challengeId?: Id<"challenges">;
-        dailyRepeat: Array<string>;
-        intervalRepeat: number;
-        monthlyRepeat: Array<number>;
+        logo?: string;
+        metadata?: string;
         name: string;
-        rate?: number;
-        recurrence: string;
-        repeatType: string;
-        selectedIcon: string;
-        selectedIconColor: string;
-        startDate: number;
-        timeOfDay: Array<string>;
-        timeReminder: number;
-        unit: string;
-        unitType: string;
-        unitValue: number;
+        organizationId: Id<"organizations">;
+        slug: string;
       },
       any
     >;
-    updateGoal: FunctionReference<
+    deleteOrganization: FunctionReference<
       "mutation",
       "public",
-      {
-        dailyRepeat: Array<string>;
-        goalId: Id<"goals">;
-        intervalRepeat: number;
-        monthlyRepeat: Array<number>;
-        name: string;
-        rate?: number;
-        recurrence: string;
-        repeatType: string;
-        selectedIcon: string;
-        selectedIconColor: string;
-        startDate: number;
-        timeOfDay: Array<string>;
-        timeReminder: number;
-        unit: string;
-        unitType: string;
-        unitValue: number;
-      },
-      any
-    >;
-    deleteGoal: FunctionReference<
-      "mutation",
-      "public",
-      { goalId: Id<"goals"> },
-      any
-    >;
-    deleteGoalAndGoalLogs: FunctionReference<
-      "mutation",
-      "public",
-      { goalId: Id<"goals"> },
+      { organizationId: Id<"organizations"> },
       any
     >;
   };
@@ -136,56 +114,19 @@ export type PublicApiType = {
       any
     >;
   };
-  goalLogs: {
-    getGoalLogById: FunctionReference<
-      "query",
-      "public",
-      { goalLogId: Id<"goalLogs"> },
-      any
-    >;
-    getGoalLogsbyGoalId: FunctionReference<
-      "query",
-      "public",
-      { goalId: Id<"goals"> },
-      any
-    >;
-    listGoalLogs: FunctionReference<"query", "public", any, any>;
-    createGoalLog: FunctionReference<
-      "mutation",
+  auth: {
+    signIn: FunctionReference<
+      "action",
       "public",
       {
-        date: number;
-        goalId: Id<"goals">;
-        isComplete: boolean;
-        unitsCompleted: number;
+        params?: any;
+        provider?: string;
+        refreshToken?: string;
+        verifier?: string;
       },
       any
     >;
-    updateGoalLog: FunctionReference<
-      "mutation",
-      "public",
-      {
-        date?: number;
-        goalId?: Id<"goals">;
-        goalLogId: Id<"goalLogs">;
-        isComplete?: boolean;
-        targetDate?: number;
-        unitsCompleted?: number;
-      },
-      any
-    >;
-    deleteGoalLog: FunctionReference<
-      "mutation",
-      "public",
-      { goalLogId: Id<"goalLogs"> },
-      any
-    >;
-    getGoalLogByDate: FunctionReference<
-      "query",
-      "public",
-      { date: number; goalId: Id<"goals"> },
-      any
-    >;
+    signOut: FunctionReference<"action", "public", Record<string, never>, any>;
   };
   challenges: {
     getChallengeByIdWthHasJoined: FunctionReference<
@@ -208,10 +149,10 @@ export type PublicApiType = {
         description: string;
         endDate: number;
         name: string;
-        points: number;
         recurrence: string;
         repeat: Array<string>;
         startDate: number;
+        tokens: number;
         unit: string;
         unitType: string;
         unitValue: number;
@@ -229,6 +170,7 @@ export type PublicApiType = {
         recurrence: string;
         repeat: Array<string>;
         startDate: number;
+        tokens: number;
         unit: string;
         unitType: string;
         unitValue: number;
@@ -271,105 +213,87 @@ export type PublicApiType = {
       { challengeId: Id<"challenges"> },
       any
     >;
-    sortParticipantsByPoints: FunctionReference<
-      "query",
-      "public",
-      { userIds: Array<Id<"users">> },
-      any
-    >;
-    updatePoints: FunctionReference<
-      "mutation",
-      "public",
-      { rate: number; unitsCompleted: number },
-      any
-    >;
   };
-  organizations: {
-    getOrganizationBySlug: FunctionReference<
+  habitLogs: {
+    getHabitLogById: FunctionReference<
       "query",
       "public",
-      { slug: string },
+      { habitLogId: Id<"habitLogs"> },
       any
     >;
-    updateOrganization: FunctionReference<
+    getHabitLogsbyHabitId: FunctionReference<
+      "query",
+      "public",
+      { habitId: Id<"habits"> },
+      any
+    >;
+    listHabitLogs: FunctionReference<"query", "public", any, any>;
+    createHabitLog: FunctionReference<
       "mutation",
       "public",
       {
-        logo?: string;
-        metadata?: string;
-        name: string;
-        organizationId: Id<"organizations">;
-        slug: string;
+        day: number;
+        habitId: Id<"habits">;
+        isComplete: boolean;
+        month: number;
+        unitsCompleted: number;
+        year: number;
       },
       any
     >;
-    deleteOrganization: FunctionReference<
-      "mutation",
-      "public",
-      { organizationId: Id<"organizations"> },
-      any
-    >;
-  };
-  invitations: {
-    sendOwnerInvitation: FunctionReference<
-      "mutation",
-      "public",
-      { orgName: string; owner: { email: string; name: string } },
-      any
-    >;
-    listInvitations: FunctionReference<"query", "public", any, any>;
-    sendUserInvitation: FunctionReference<
-      "mutation",
-      "public",
-      { emails: Array<string>; role: string },
-      any
-    >;
-    resendUserInvitation: FunctionReference<
-      "mutation",
-      "public",
-      { invitationId: Id<"invitations"> },
-      any
-    >;
-    acceptInvitation: FunctionReference<
-      "mutation",
-      "public",
-      { invitationId: Id<"invitations"> },
-      any
-    >;
-    deleteInvitation: FunctionReference<
-      "mutation",
-      "public",
-      { invitationId: Id<"invitations"> },
-      any
-    >;
-  };
-  habitStats: {
-    fetchHabitStats: FunctionReference<
-      "query",
-      "public",
-      { goalId?: Id<"goals"> },
-      any
-    >;
-  };
-  singleHabitStats: {
-    fetchSingleHabitStats: FunctionReference<
-      "query",
-      "public",
-      { goalId: Id<"goals"> },
-      any
-    >;
-  };
-  challengeGoals: {
-    createChallengeGoal: FunctionReference<
+    updateHabitLog: FunctionReference<
       "mutation",
       "public",
       {
-        challengeId: Id<"challenges">;
+        habitLogId: Id<"habitLogs">;
+        isComplete?: boolean;
+        unitsCompleted?: number;
+      },
+      any
+    >;
+    getHabitLogByDate: FunctionReference<
+      "query",
+      "public",
+      { day: number; habitId: Id<"habits">; month: number; year: number },
+      any
+    >;
+  };
+  habits: {
+    getHabitByIdWithLogs: FunctionReference<
+      "query",
+      "public",
+      { habitId: Id<"habits"> },
+      any
+    >;
+    getHabitByIdWithLogsForCurrentMonth: FunctionReference<
+      "query",
+      "public",
+      { habitId: Id<"habits">; month: number; year: number },
+      any
+    >;
+    getHabitByIdWithLogForCurrentDay: FunctionReference<
+      "query",
+      "public",
+      { day: number; habitId: Id<"habits">; month: number; year: number },
+      any
+    >;
+    getHabitById: FunctionReference<
+      "query",
+      "public",
+      { habitId: Id<"habits"> },
+      any
+    >;
+    listHabits: FunctionReference<"query", "public", { date: string }, any>;
+    createHabit: FunctionReference<
+      "mutation",
+      "public",
+      {
+        challengeId?: Id<"challenges">;
         dailyRepeat: Array<string>;
         intervalRepeat: number;
         monthlyRepeat: Array<number>;
         name: string;
-        rate: number;
+        rate?: number;
         recurrence: string;
         repeatType: string;
         selectedIcon: string;
@@ -383,11 +307,86 @@ export type PublicApiType = {
       },
       any
     >;
-    listChallengeGoals: FunctionReference<"query", "public", any, any>;
-    listChallengeGoalsById: FunctionReference<
+    updateHabit: FunctionReference<
+      "mutation",
+      "public",
+      {
+        dailyRepeat: Array<string>;
+        habitId: Id<"habits">;
+        intervalRepeat: number;
+        monthlyRepeat: Array<number>;
+        name: string;
+        recurrence: string;
+        repeatType: string;
+        selectedIcon: string;
+        selectedIconColor: string;
+        startDate: number;
+        timeOfDay: Array<string>;
+        timeReminder: number;
+        unit: string;
+        unitType: string;
+        unitValue: number;
+      },
+      any
+    >;
+    deleteHabit: FunctionReference<
+      "mutation",
+      "public",
+      { habitId: Id<"habits"> },
+      any
+    >;
+  };
+  tremendous: {
+    listRewardsAction: FunctionReference<"action", "public", any, any>;
+    getRewardAction: FunctionReference<
+      "action",
+      "public",
+      { productId: string },
+      any
+    >;
+  };
+  messages: {
+    getMessages: FunctionReference<
       "query",
       "public",
-      { goalId: Id<"challenges"> },
+      { threadId?: string },
+      any
+    >;
+    sendMessage: FunctionReference<
+      "mutation",
+      "public",
+      { message: string; threadId?: string },
+      any
+    >;
+    clear: FunctionReference<"mutation", "public", { threadId: string }, any>;
+  };
+  threads: {
+    getThread: FunctionReference<"query", "public", Record<string, never>, any>;
+    deleteThread: FunctionReference<
+      "mutation",
+      "public",
+      { threadId: string },
+      any
+    >;
+  };
+  challengeLogs: {
+    createChallengeLog: FunctionReference<
+      "mutation",
+      "public",
+      {
+        challengeId: Id<"challenges">;
+        day: number;
+        isComplete: boolean;
+        month: number;
+        unitsCompleted: number;
+        year: number;
+      },
+      any
+    >;
+    getChallengeLogsById: FunctionReference<
+      "query",
+      "public",
+      { challengeId: Id<"challenges"> },
       any
     >;
   };
