@@ -76,7 +76,6 @@ export default function ChallengeForm({
   const step = UNIT_RANGES[unitType][unit].step;
 
   async function onSubmit(values: ChallengeFormSchema) {
-    console.log(values);
     await challengeMutation({
       ...(isEditing && { challengeId }),
       name: values.name,
@@ -86,8 +85,8 @@ export default function ChallengeForm({
       unit: values.unit,
       unitValue: values.unitValue,
       recurrence: values.recurrence,
-      startDate: values.duration.from.getTime(),
-      endDate: values.duration.to.getTime(),
+      startDateString: values.duration.from.toDateString(),
+      endDateString: values.duration.to.toDateString(),
       tokens: values.tokens,
     });
     router.replace("/dashboard/challenges");

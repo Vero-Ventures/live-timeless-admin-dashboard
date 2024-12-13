@@ -47,6 +47,7 @@ export default function CreateChallengePage() {
             from: new Date(challenge.startDate),
             to: new Date(challenge.endDate),
           },
+          tokens: challenge.tokens,
         }}
         challengeFunctionReference={api.challenges.updateChallenge}
       />

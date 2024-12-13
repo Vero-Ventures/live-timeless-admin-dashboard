@@ -101,6 +101,12 @@ export type PublicApiType = {
       { dob?: number; height?: number; weight?: number },
       any
     >;
+    updateUserTokens: FunctionReference<
+      "mutation",
+      "public",
+      { tokens: number },
+      any
+    >;
     deleteUser: FunctionReference<
       "mutation",
       "public",
@@ -141,17 +147,34 @@ export type PublicApiType = {
       { challengeId: Id<"challenges"> },
       any
     >;
+    getChallengeByIdWithLogForCurrentDay: FunctionReference<
+      "query",
+      "public",
+      {
+        challengeId: Id<"challenges">;
+        day: number;
+        month: number;
+        year: number;
+      },
+      any
+    >;
     listChallenges: FunctionReference<"query", "public", any, any>;
+    listCurrentUsersChallenges: FunctionReference<
+      "query",
+      "public",
+      { date: string },
+      any
+    >;
     createChallenge: FunctionReference<
       "mutation",
       "public",
       {
         description: string;
-        endDate: number;
+        endDateString: string;
         name: string;
         recurrence: string;
         repeat: Array<string>;
-        startDate: number;
+        startDateString: string;
         tokens: number;
         unit: string;
         unitType: string;
@@ -165,11 +188,11 @@ export type PublicApiType = {
       {
         challengeId: Id<"challenges">;
         description: string;
-        endDate: number;
+        endDateString: string;
         name: string;
         recurrence: string;
         repeat: Array<string>;
-        startDate: number;
+        startDateString: string;
         tokens: number;
         unit: string;
         unitType: string;
@@ -298,9 +321,9 @@ export type PublicApiType = {
         repeatType: string;
         selectedIcon: string;
         selectedIconColor: string;
-        startDate: number;
+        startDateString: string;
         timeOfDay: Array<string>;
-        timeReminder: number;
+        timeReminderString: string;
         unit: string;
         unitType: string;
         unitValue: number;
@@ -320,9 +343,9 @@ export type PublicApiType = {
         repeatType: string;
         selectedIcon: string;
         selectedIconColor: string;
-        startDate: number;
+        startDateString: string;
         timeOfDay: Array<string>;
-        timeReminder: number;
+        timeReminderString: string;
         unit: string;
         unitType: string;
         unitValue: number;
@@ -337,11 +360,17 @@ export type PublicApiType = {
     >;
   };
   tremendous: {
-    listRewardsAction: FunctionReference<"action", "public", any, any>;
-    getRewardAction: FunctionReference<
+    listProductsAction: FunctionReference<"action", "public", any, any>;
+    getProductAction: FunctionReference<
       "action",
       "public",
       { productId: string },
+      any
+    >;
+    redeemRewardAction: FunctionReference<
+      "action",
+      "public",
+      { denomination: number; email: string; name: string; productId: string },
       any
     >;
   };
@@ -380,6 +409,16 @@ export type PublicApiType = {
         month: number;
         unitsCompleted: number;
         year: number;
+      },
+      any
+    >;
+    updateChallengeLog: FunctionReference<
+      "mutation",
+      "public",
+      {
+        challengeLogId: Id<"challengeLogs">;
+        isComplete?: boolean;
+        unitsCompleted?: number;
       },
       any
     >;
