@@ -12,7 +12,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { MultiSelect } from "@/components/ui/multi-select";
+// import { MultiSelect } from "@/components/ui/multi-select";
 import { Textarea } from "@/components/ui/textarea";
 import { DatePickerWithRange } from "@/components/ui/date-picker";
 import { addDays } from "date-fns";
@@ -23,7 +23,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { RECURRENCE, REPEATS, UNIT_RANGES, UNIT_TYPES } from "./constants";
+import { REPEATS, UNIT_RANGES, UNIT_TYPES } from "./constants";
 import { Label } from "@/components/ui/label";
 import { useMutation } from "convex/react";
 import { useParams, useRouter } from "next/navigation";
@@ -229,11 +229,14 @@ export default function ChallengeForm({
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      {RECURRENCE.map((recurrence) => (
+                      {/* {RECURRENCE.map((recurrence) => (
                         <SelectItem key={recurrence} value={recurrence}>
                           {recurrence}
                         </SelectItem>
-                      ))}
+                      ))} */}
+                      <SelectItem key="per day" value="per day">
+                        per day
+                      </SelectItem>
                     </SelectContent>
                   </Select>
                   <FormMessage />
@@ -242,7 +245,7 @@ export default function ChallengeForm({
             />
           </div>
         </div>
-        <FormField
+        {/* <FormField
           control={form.control}
           name="repeat"
           render={({ field }) => (
@@ -266,7 +269,7 @@ export default function ChallengeForm({
               <FormMessage />
             </FormItem>
           )}
-        />
+        /> */}
         <FormField
           control={form.control}
           name="duration"
