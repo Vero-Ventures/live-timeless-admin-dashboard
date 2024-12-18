@@ -10,8 +10,9 @@ const openSans = Open_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "Live Timeless",
-  description: "",
+  title: "Live Timeless - Revolutionizing Corporate Wellness",
+  description:
+    "Empower your employees, optimize your organization, and transform corporate health with our comprehensive performance and wellness incentive platform.",
 };
 
 export default function RootLayout({
