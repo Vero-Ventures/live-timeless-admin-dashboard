@@ -13,7 +13,7 @@ export default function Home() {
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 
-export function Hero() {
+function Hero() {
   return (
     <section className="w-full bg-card py-12 md:py-24 lg:py-32 xl:py-48">
       <div className="container mx-auto px-4 md:px-6">
@@ -50,7 +50,7 @@ export function Hero() {
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Users, Building, HeartPulse } from "lucide-react";
 
-export function Benefits() {
+function Benefits() {
   const benefits = [
     {
       title: "For Employees",
@@ -98,7 +98,7 @@ export function Benefits() {
 
 import { CheckCircle } from "lucide-react";
 
-export function Features() {
+function Features() {
   const features = [
     "Mobile app with fitness tracker integration",
     "AI and LLM-powered personalized goal setting",
@@ -128,8 +128,7 @@ export function Features() {
 }
 
 import { Shield } from "lucide-react";
-
-export function Privacy() {
+function Privacy() {
   return (
     <section className="w-full bg-background py-12 md:py-24 lg:py-32">
       <div className="container mx-auto px-4 md:px-6">
@@ -151,8 +150,7 @@ export function Privacy() {
 }
 
 import Link from "next/link";
-
-export function Footer() {
+function Footer() {
   return (
     <footer className="w-full bg-card py-10">
       <div className="container mx-auto px-4 md:px-6">
