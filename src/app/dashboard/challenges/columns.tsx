@@ -23,7 +23,7 @@ export interface TableData {
   _id: any;
   name: string;
   goal: string;
-  // users: number;
+  tokens: number;
   // engagement: number;
 }
 
@@ -81,21 +81,21 @@ export const columns: ColumnDef<TableData>[] = [
       );
     },
   },
-  // {
-  //   accessorKey: "users",
-  //   header: ({ column }) => {
-  //     return (
-  //       <Button
-  //         variant="ghost"
-  //         className="flex items-center gap-2"
-  //         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-  //       >
-  //         <span>Users</span>
-  //         <ArrowUpDown className="size-4" />
-  //       </Button>
-  //     );
-  //   },
-  // },
+  {
+    accessorKey: "tokens",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          className="flex items-center gap-2"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          <span>Tokens</span>
+          <ArrowUpDown className="size-4" />
+        </Button>
+      );
+    },
+  },
   // {
   //   accessorKey: "engagement",
   //   header: ({ column }) => {
