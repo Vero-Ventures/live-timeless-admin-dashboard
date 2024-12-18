@@ -165,14 +165,6 @@ export function Footer() {
               Privacy Policy
             </Link>
           </li>
-          <li>
-            <Link
-              href="/terms-of-service"
-              className="text-muted-foreground hover:text-primary"
-            >
-              Terms of Service
-            </Link>
-          </li>
         </ul>
         <div className="mt-8 border-t pt-8 text-center">
           <p className="text-muted-foreground">
