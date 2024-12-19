@@ -9,6 +9,7 @@ import {
   Infinity,
   Loader2Icon,
   Target,
+  Coins,
 } from "lucide-react";
 import Link from "next/link";
 import { DataTable } from "./data-table";
@@ -75,6 +76,10 @@ export default function SingleChallengePage() {
                 day: "numeric",
               })}`}
             </span>
+          </div>
+          <div className="flex gap-2">
+            <Coins />
+            <span>{challenge.tokens} tokens</span>
           </div>
         </div>
         <div className="space-y-2">

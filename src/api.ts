@@ -5,121 +5,6 @@ export const api: PublicApiType = anyApi as unknown as PublicApiType;
 export const internal: InternalApiType = anyApi as unknown as InternalApiType;
 
 export type PublicApiType = {
-  invitations: {
-    sendOwnerInvitation: FunctionReference<
-      "mutation",
-      "public",
-      { orgName: string; owner: { email: string; name: string } },
-      any
-    >;
-    listInvitations: FunctionReference<"query", "public", any, any>;
-    sendUserInvitation: FunctionReference<
-      "mutation",
-      "public",
-      { emails: Array<string>; role: string },
-      any
-    >;
-    resendUserInvitation: FunctionReference<
-      "mutation",
-      "public",
-      { invitationId: Id<"invitations"> },
-      any
-    >;
-    acceptInvitation: FunctionReference<
-      "mutation",
-      "public",
-      { invitationId: Id<"invitations"> },
-      any
-    >;
-    deleteInvitation: FunctionReference<
-      "mutation",
-      "public",
-      { invitationId: Id<"invitations"> },
-      any
-    >;
-  };
-  organizations: {
-    getOrganizationBySlug: FunctionReference<
-      "query",
-      "public",
-      { slug: string },
-      any
-    >;
-    updateOrganization: FunctionReference<
-      "mutation",
-      "public",
-      {
-        logo?: string;
-        metadata?: string;
-        name: string;
-        organizationId: Id<"organizations">;
-        slug: string;
-      },
-      any
-    >;
-    deleteOrganization: FunctionReference<
-      "mutation",
-      "public",
-      { organizationId: Id<"organizations"> },
-      any
-    >;
-  };
-  users: {
-    currentUser: FunctionReference<
-      "query",
-      "public",
-      Record<string, never>,
-      any
-    >;
-    deleteAuthAccount: FunctionReference<
-      "mutation",
-      "public",
-      { userId: Id<"users"> },
-      any
-    >;
-    updateProfile: FunctionReference<
-      "mutation",
-      "public",
-      {
-        dob?: number;
-        email: string;
-        height?: number;
-        name: string;
-        weight?: number;
-      },
-      any
-    >;
-    updateUserName: FunctionReference<
-      "mutation",
-      "public",
-      { name: string },
-      any
-    >;
-    updatePartialProfile: FunctionReference<
-      "mutation",
-      "public",
-      { dob?: number; height?: number; weight?: number },
-      any
-    >;
-    updateUserTokens: FunctionReference<
-      "mutation",
-      "public",
-      { tokens: number },
-      any
-    >;
-    deleteUser: FunctionReference<
-      "mutation",
-      "public",
-      { userId: Id<"users"> },
-      any
-    >;
-    checkUserEmail: FunctionReference<
-      "mutation",
-      "public",
-      { email: string },
-      any
-    >;
-  };
   auth: {
     signIn: FunctionReference<
       "action",
@@ -234,6 +119,127 @@ export type PublicApiType = {
       "query",
       "public",
       { challengeId: Id<"challenges"> },
+      any
+    >;
+  };
+  users: {
+    currentUser: FunctionReference<
+      "query",
+      "public",
+      Record<string, never>,
+      any
+    >;
+    deleteAuthAccount: FunctionReference<
+      "mutation",
+      "public",
+      { userId: Id<"users"> },
+      any
+    >;
+    updateProfile: FunctionReference<
+      "mutation",
+      "public",
+      {
+        dob?: number;
+        email: string;
+        height?: number;
+        name: string;
+        weight?: number;
+      },
+      any
+    >;
+    updateUserName: FunctionReference<
+      "mutation",
+      "public",
+      { name: string },
+      any
+    >;
+    updatePartialProfile: FunctionReference<
+      "mutation",
+      "public",
+      { dob?: number; height?: number; weight?: number },
+      any
+    >;
+    updateUserTokens: FunctionReference<
+      "mutation",
+      "public",
+      { tokens: number },
+      any
+    >;
+    deleteUser: FunctionReference<
+      "mutation",
+      "public",
+      { userId: Id<"users"> },
+      any
+    >;
+    deleteCurrentUser: FunctionReference<
+      "mutation",
+      "public",
+      { userId: Id<"users"> },
+      any
+    >;
+    checkUserEmail: FunctionReference<
+      "mutation",
+      "public",
+      { email: string },
+      any
+    >;
+  };
+  organizations: {
+    getOrganizationBySlug: FunctionReference<
+      "query",
+      "public",
+      { slug: string },
+      any
+    >;
+    updateOrganization: FunctionReference<
+      "mutation",
+      "public",
+      {
+        logo?: string;
+        metadata?: string;
+        name: string;
+        organizationId: Id<"organizations">;
+        slug: string;
+      },
+      any
+    >;
+    deleteOrganization: FunctionReference<
+      "mutation",
+      "public",
+      { organizationId: Id<"organizations"> },
+      any
+    >;
+  };
+  invitations: {
+    sendOwnerInvitation: FunctionReference<
+      "mutation",
+      "public",
+      { orgName: string; owner: { email: string; name: string } },
+      any
+    >;
+    listInvitations: FunctionReference<"query", "public", any, any>;
+    sendUserInvitation: FunctionReference<
+      "mutation",
+      "public",
+      { emails: Array<string>; role: string },
+      any
+    >;
+    resendUserInvitation: FunctionReference<
+      "mutation",
+      "public",
+      { invitationId: Id<"invitations"> },
+      any
+    >;
+    acceptInvitation: FunctionReference<
+      "mutation",
+      "public",
+      { invitationId: Id<"invitations"> },
+      any
+    >;
+    deleteInvitation: FunctionReference<
+      "mutation",
+      "public",
+      { invitationId: Id<"invitations"> },
       any
     >;
   };
@@ -418,7 +424,7 @@ export type PublicApiType = {
       {
         challengeLogId: Id<"challengeLogs">;
         isComplete?: boolean;
-        unitsCompleted?: number;
+        unitsCompleted: number;
       },
       any
     >;
