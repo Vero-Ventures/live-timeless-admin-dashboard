@@ -288,7 +288,7 @@ export default function ChallengeForm({
           name="tokens"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Tokens</FormLabel>
+              <FormLabel>Tokens per completion</FormLabel>
               <FormControl>
                 <Input type="number" placeholder="" {...field} />
               </FormControl>
