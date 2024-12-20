@@ -29,7 +29,7 @@ export default async function VerifyMember({
         </div>
         <h1 className="text-2xl font-bold">You&apos;re Verified!</h1>
         <p>Thank you for verifying your membership.</p>
-        <p className="text-center">Download our app to get started:</p>
+        {/* <p className="text-center">Download our app to get started:</p> */}
       </div>
     </div>
   );
